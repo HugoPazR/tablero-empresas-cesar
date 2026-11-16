@@ -3,7 +3,7 @@
   "corte": "2026-11-06",
   "anio": 2026,
   "anio_referencia": 2026,
-  "generado": "2026-11-16T07:57:25.055Z",
+  "generado": "2026-11-16T08:15:10.840Z",
   "fuente": "Confecámaras (RUES): Personas Naturales, Personas Jurídicas y Entidades Sin Ánimo de Lucro",
   "fuente_url": "https://www.datos.gov.co/d/c82u-588k",
   "licencia": "CC BY-SA 4.0"
@@ -105,21 +105,24 @@
    ],
    "sectores": [
     {
-     "sector": "Comercio y reparación de vehículos",
+     "sector": "Comercio; reparación de vehículos",
+     "oficial": "Comercio al por mayor y al por menor; reparación de vehículos automotores y motocicletas",
      "al_dia": 9240,
      "pct_al_dia": 44.7,
      "nuevas": 1928,
      "pct_nuevas": 41.8
     },
     {
-     "sector": "Alojamiento y comidas",
+     "sector": "Alojamiento y servicios de comida",
+     "oficial": "Alojamiento y servicios de comida",
      "al_dia": 2669,
      "pct_al_dia": 12.9,
      "nuevas": 740,
      "pct_nuevas": 16
     },
     {
-     "sector": "Industria manufacturera",
+     "sector": "Industrias manufactureras",
+     "oficial": "Industrias manufactureras",
      "al_dia": 1587,
      "pct_al_dia": 7.7,
      "nuevas": 342,
@@ -127,6 +130,7 @@
     },
     {
      "sector": "Construcción",
+     "oficial": "Construcción",
      "al_dia": 1514,
      "pct_al_dia": 7.3,
      "nuevas": 449,
@@ -134,13 +138,15 @@
     },
     {
      "sector": "Profesionales, científicas y técnicas",
+     "oficial": "Actividades profesionales, científicas y técnicas",
      "al_dia": 1077,
      "pct_al_dia": 5.2,
      "nuevas": 232,
      "pct_nuevas": 5
     },
     {
-     "sector": "Otros servicios",
+     "sector": "Otras actividades de servicios",
+     "oficial": "Otras actividades de servicios",
      "al_dia": 718,
      "pct_al_dia": 3.5,
      "nuevas": 195,
@@ -148,6 +154,7 @@
     },
     {
      "sector": "Transporte y almacenamiento",
+     "oficial": "Transporte y almacenamiento",
      "al_dia": 624,
      "pct_al_dia": 3,
      "nuevas": 152,
@@ -155,13 +162,15 @@
     },
     {
      "sector": "Servicios administrativos y de apoyo",
+     "oficial": "Actividades de servicios administrativos y de apoyo",
      "al_dia": 597,
      "pct_al_dia": 2.9,
      "nuevas": 131,
      "pct_nuevas": 2.8
     },
     {
-     "sector": "Agro, ganadería y pesca",
+     "sector": "Agricultura, ganadería y pesca",
+     "oficial": "Agricultura, ganadería, caza, silvicultura y pesca",
      "al_dia": 490,
      "pct_al_dia": 2.4,
      "nuevas": 66,
@@ -169,13 +178,15 @@
     },
     {
      "sector": "Salud y asistencia social",
+     "oficial": "Actividades de atención de la salud humana y de asistencia social",
      "al_dia": 452,
      "pct_al_dia": 2.2,
      "nuevas": 50,
      "pct_nuevas": 1.1
     },
     {
-     "sector": "Inmobiliarias",
+     "sector": "Actividades inmobiliarias",
+     "oficial": "Actividades inmobiliarias",
      "al_dia": 408,
      "pct_al_dia": 2,
      "nuevas": 78,
@@ -183,6 +194,7 @@
     },
     {
      "sector": "Arte, entretenimiento y recreación",
+     "oficial": "Actividades artísticas, de entretenimiento y recreación",
      "al_dia": 377,
      "pct_al_dia": 1.8,
      "nuevas": 66,
@@ -190,6 +202,7 @@
     },
     {
      "sector": "Información y comunicaciones",
+     "oficial": "Información y comunicaciones",
      "al_dia": 345,
      "pct_al_dia": 1.7,
      "nuevas": 95,
@@ -197,13 +210,15 @@
     },
     {
      "sector": "Finanzas y seguros",
+     "oficial": "Actividades financieras y de seguros",
      "al_dia": 204,
      "pct_al_dia": 1,
      "nuevas": 38,
      "pct_nuevas": 0.8
     },
     {
-     "sector": "Agua y saneamiento",
+     "sector": "Agua, residuos y saneamiento",
+     "oficial": "Distribución de agua; evacuación y tratamiento de aguas residuales, gestión de desechos y actividades de saneamiento ambiental",
      "al_dia": 120,
      "pct_al_dia": 0.6,
      "nuevas": 14,
@@ -211,6 +226,7 @@
     },
     {
      "sector": "Educación",
+     "oficial": "Educación",
      "al_dia": 113,
      "pct_al_dia": 0.5,
      "nuevas": 23,
@@ -218,6 +234,7 @@
     },
     {
      "sector": "Minas y canteras",
+     "oficial": "Explotación de minas y canteras",
      "al_dia": 71,
      "pct_al_dia": 0.3,
      "nuevas": 9,
@@ -225,13 +242,15 @@
     },
     {
      "sector": "Electricidad y gas",
+     "oficial": "Suministro de electricidad, gas, vapor y aire acondicionado",
      "al_dia": 36,
      "pct_al_dia": 0.2,
      "nuevas": 8,
      "pct_nuevas": 0.2
     },
     {
-     "sector": "Administración pública",
+     "sector": "Administración pública y defensa",
+     "oficial": "Administración pública y defensa; planes de seguridad social de afiliación obligatoria",
      "al_dia": 10,
      "pct_al_dia": 0,
      "nuevas": 1,
@@ -453,73 +472,73 @@
    "tecnologia": [
     {
      "ciiu": "4741",
-     "actividad": "Venta de computadores y equipos de telecomunicaciones",
+     "actividad": "Comercio al por menor de computadores, equipos periféricos, programas de informática y equipos de telecomunicaciones en establecimientos especializados",
      "al_dia": 343,
      "nuevas": 63
     },
     {
      "ciiu": "6201",
-     "actividad": "Desarrollo de software",
+     "actividad": "Actividades de desarrollo de sistemas informáticos (planificación, análisis, diseño, programación, pruebas)",
      "al_dia": 97,
      "nuevas": 38
     },
     {
      "ciiu": "6190",
-     "actividad": "Otras telecomunicaciones",
+     "actividad": "Otras actividades de telecomunicaciones",
      "al_dia": 56,
      "nuevas": 9
     },
     {
      "ciiu": "9511",
-     "actividad": "Reparación de computadores",
+     "actividad": "Mantenimiento y reparación de computadores y de equipo periférico",
      "al_dia": 45,
      "nuevas": 4
     },
     {
      "ciiu": "6110",
-     "actividad": "Telecomunicaciones alámbricas",
+     "actividad": "Actividades de telecomunicaciones alámbricas",
      "al_dia": 40,
      "nuevas": 11
     },
     {
      "ciiu": "8020",
-     "actividad": "Sistemas de seguridad (alarmas, cámaras)",
+     "actividad": "Actividades de servicios de sistemas de seguridad",
      "al_dia": 39,
      "nuevas": 4
     },
     {
      "ciiu": "9512",
-     "actividad": "Reparación de equipos de comunicación",
+     "actividad": "Mantenimiento y reparación de equipos de comunicación",
      "al_dia": 30,
      "nuevas": 14
     },
     {
      "ciiu": "6120",
-     "actividad": "Telecomunicaciones inalámbricas",
+     "actividad": "Actividades de telecomunicaciones inalámbricas",
      "al_dia": 24,
      "nuevas": 3
     },
     {
      "ciiu": "6202",
-     "actividad": "Consultoría e instalaciones informáticas",
+     "actividad": "Actividades de consultoría informática y actividades de administración de instalaciones informáticas",
      "al_dia": 17,
      "nuevas": 10
     },
     {
      "ciiu": "6311",
-     "actividad": "Procesamiento de datos y hosting",
+     "actividad": "Procesamiento de datos, alojamiento (hosting) y actividades relacionadas",
      "al_dia": 10,
      "nuevas": 2
     },
     {
      "ciiu": "6209",
-     "actividad": "Otros servicios informáticos",
+     "actividad": "Otras actividades de tecnologías de información y actividades de servicios informáticos",
      "al_dia": 7,
      "nuevas": 3
     },
     {
      "ciiu": "6130",
-     "actividad": "Telecomunicaciones satelitales",
+     "actividad": "Actividades de telecomunicación satelital",
      "al_dia": 4,
      "nuevas": 1
     },
@@ -627,21 +646,24 @@
    ],
    "sectores": [
     {
-     "sector": "Comercio y reparación de vehículos",
+     "sector": "Comercio; reparación de vehículos",
+     "oficial": "Comercio al por mayor y al por menor; reparación de vehículos automotores y motocicletas",
      "al_dia": 4806,
      "pct_al_dia": 51.7,
      "nuevas": 750,
      "pct_nuevas": 46.9
     },
     {
-     "sector": "Alojamiento y comidas",
+     "sector": "Alojamiento y servicios de comida",
+     "oficial": "Alojamiento y servicios de comida",
      "al_dia": 1317,
      "pct_al_dia": 14.2,
      "nuevas": 302,
      "pct_nuevas": 18.9
     },
     {
-     "sector": "Industria manufacturera",
+     "sector": "Industrias manufactureras",
+     "oficial": "Industrias manufactureras",
      "al_dia": 733,
      "pct_al_dia": 7.9,
      "nuevas": 145,
@@ -649,13 +671,15 @@
     },
     {
      "sector": "Construcción",
+     "oficial": "Construcción",
      "al_dia": 364,
      "pct_al_dia": 3.9,
      "nuevas": 52,
      "pct_nuevas": 3.3
     },
     {
-     "sector": "Otros servicios",
+     "sector": "Otras actividades de servicios",
+     "oficial": "Otras actividades de servicios",
      "al_dia": 310,
      "pct_al_dia": 3.3,
      "nuevas": 64,
@@ -663,6 +687,7 @@
     },
     {
      "sector": "Transporte y almacenamiento",
+     "oficial": "Transporte y almacenamiento",
      "al_dia": 291,
      "pct_al_dia": 3.1,
      "nuevas": 44,
@@ -670,6 +695,7 @@
     },
     {
      "sector": "Profesionales, científicas y técnicas",
+     "oficial": "Actividades profesionales, científicas y técnicas",
      "al_dia": 235,
      "pct_al_dia": 2.5,
      "nuevas": 42,
@@ -677,13 +703,15 @@
     },
     {
      "sector": "Arte, entretenimiento y recreación",
+     "oficial": "Actividades artísticas, de entretenimiento y recreación",
      "al_dia": 231,
      "pct_al_dia": 2.5,
      "nuevas": 51,
      "pct_nuevas": 3.2
     },
     {
-     "sector": "Agro, ganadería y pesca",
+     "sector": "Agricultura, ganadería y pesca",
+     "oficial": "Agricultura, ganadería, caza, silvicultura y pesca",
      "al_dia": 220,
      "pct_al_dia": 2.4,
      "nuevas": 25,
@@ -691,6 +719,7 @@
     },
     {
      "sector": "Servicios administrativos y de apoyo",
+     "oficial": "Actividades de servicios administrativos y de apoyo",
      "al_dia": 192,
      "pct_al_dia": 2.1,
      "nuevas": 37,
@@ -698,6 +727,7 @@
     },
     {
      "sector": "Minas y canteras",
+     "oficial": "Explotación de minas y canteras",
      "al_dia": 145,
      "pct_al_dia": 1.6,
      "nuevas": 23,
@@ -705,6 +735,7 @@
     },
     {
      "sector": "Información y comunicaciones",
+     "oficial": "Información y comunicaciones",
      "al_dia": 139,
      "pct_al_dia": 1.5,
      "nuevas": 26,
@@ -712,20 +743,23 @@
     },
     {
      "sector": "Salud y asistencia social",
+     "oficial": "Actividades de atención de la salud humana y de asistencia social",
      "al_dia": 91,
      "pct_al_dia": 1,
      "nuevas": 10,
      "pct_nuevas": 0.6
     },
     {
-     "sector": "Agua y saneamiento",
+     "sector": "Agua, residuos y saneamiento",
+     "oficial": "Distribución de agua; evacuación y tratamiento de aguas residuales, gestión de desechos y actividades de saneamiento ambiental",
      "al_dia": 82,
      "pct_al_dia": 0.9,
      "nuevas": 2,
      "pct_nuevas": 0.1
     },
     {
-     "sector": "Inmobiliarias",
+     "sector": "Actividades inmobiliarias",
+     "oficial": "Actividades inmobiliarias",
      "al_dia": 62,
      "pct_al_dia": 0.7,
      "nuevas": 11,
@@ -733,6 +767,7 @@
     },
     {
      "sector": "Educación",
+     "oficial": "Educación",
      "al_dia": 31,
      "pct_al_dia": 0.3,
      "nuevas": 7,
@@ -740,6 +775,7 @@
     },
     {
      "sector": "Finanzas y seguros",
+     "oficial": "Actividades financieras y de seguros",
      "al_dia": 26,
      "pct_al_dia": 0.3,
      "nuevas": 4,
@@ -747,13 +783,15 @@
     },
     {
      "sector": "Electricidad y gas",
+     "oficial": "Suministro de electricidad, gas, vapor y aire acondicionado",
      "al_dia": 9,
      "pct_al_dia": 0.1,
      "nuevas": 3,
      "pct_nuevas": 0.2
     },
     {
-     "sector": "Administración pública",
+     "sector": "Administración pública y defensa",
+     "oficial": "Administración pública y defensa; planes de seguridad social de afiliación obligatoria",
      "al_dia": 2,
      "pct_al_dia": 0,
      "nuevas": 1,
@@ -761,6 +799,7 @@
     },
     {
      "sector": "Hogares empleadores",
+     "oficial": "Actividades de los hogares individuales en calidad de empleadores; actividades no diferenciadas de los hogares individuales como productores de bienes y servicios para uso propio",
      "al_dia": 1,
      "pct_al_dia": 0,
      "nuevas": 0,
@@ -982,67 +1021,67 @@
    "tecnologia": [
     {
      "ciiu": "4741",
-     "actividad": "Venta de computadores y equipos de telecomunicaciones",
+     "actividad": "Comercio al por menor de computadores, equipos periféricos, programas de informática y equipos de telecomunicaciones en establecimientos especializados",
      "al_dia": 156,
      "nuevas": 30
     },
     {
      "ciiu": "6190",
-     "actividad": "Otras telecomunicaciones",
+     "actividad": "Otras actividades de telecomunicaciones",
      "al_dia": 46,
      "nuevas": 7
     },
     {
      "ciiu": "6110",
-     "actividad": "Telecomunicaciones alámbricas",
+     "actividad": "Actividades de telecomunicaciones alámbricas",
      "al_dia": 23,
      "nuevas": 3
     },
     {
      "ciiu": "6120",
-     "actividad": "Telecomunicaciones inalámbricas",
+     "actividad": "Actividades de telecomunicaciones inalámbricas",
      "al_dia": 22,
      "nuevas": 3
     },
     {
      "ciiu": "9511",
-     "actividad": "Reparación de computadores",
+     "actividad": "Mantenimiento y reparación de computadores y de equipo periférico",
      "al_dia": 22,
      "nuevas": 2
     },
     {
      "ciiu": "9512",
-     "actividad": "Reparación de equipos de comunicación",
+     "actividad": "Mantenimiento y reparación de equipos de comunicación",
      "al_dia": 20,
      "nuevas": 2
     },
     {
      "ciiu": "6201",
-     "actividad": "Desarrollo de software",
+     "actividad": "Actividades de desarrollo de sistemas informáticos (planificación, análisis, diseño, programación, pruebas)",
      "al_dia": 17,
      "nuevas": 9
     },
     {
      "ciiu": "8020",
-     "actividad": "Sistemas de seguridad (alarmas, cámaras)",
+     "actividad": "Actividades de servicios de sistemas de seguridad",
      "al_dia": 15,
      "nuevas": 2
     },
     {
      "ciiu": "6311",
-     "actividad": "Procesamiento de datos y hosting",
+     "actividad": "Procesamiento de datos, alojamiento (hosting) y actividades relacionadas",
      "al_dia": 4,
      "nuevas": 0
     },
     {
      "ciiu": "6209",
-     "actividad": "Otros servicios informáticos",
+     "actividad": "Otras actividades de tecnologías de información y actividades de servicios informáticos",
      "al_dia": 3,
      "nuevas": 1
     },
     {
      "ciiu": "6202",
-     "actividad": "Consultoría e instalaciones informáticas",
+     "actividad": "Actividades de consultoría informática y actividades de administración de instalaciones informáticas",
      "al_dia": 2,
      "nuevas": 1
     },
@@ -1054,7 +1093,7 @@
     },
     {
      "ciiu": "6130",
-     "actividad": "Telecomunicaciones satelitales",
+     "actividad": "Actividades de telecomunicación satelital",
      "al_dia": 0,
      "nuevas": 0
     }
