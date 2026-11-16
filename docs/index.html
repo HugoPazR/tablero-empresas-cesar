@@ -120,7 +120,7 @@ a{color:#0B7F97}
     <details>
       <summary>Definiciones, método y límites</summary>
       <p><b>Al día:</b> matrícula activa cuyo último año renovado es el año de referencia o posterior. De enero a marzo se usa el año anterior, porque el plazo de renovación vence el 31 de marzo. <b>Activa:</b> matrícula no cancelada, aunque lleve años sin renovar. <b>Nueva:</b> matrícula con fecha en el año. <b>Cancelada:</b> matrícula con fecha de cancelación en el año.</p>
-      <p>La variación compara el mismo tramo del año anterior, de enero al día de corte. El registro mide formalidad: los negocios informales no aparecen. Los nombres de sectores y actividades son abreviaturas de la clasificación CIIU Rev. 4 A.C.</p>
+      <p>La variación compara el mismo tramo del año anterior, de enero al día de corte. El registro mide formalidad: los negocios informales no aparecen. Los sectores usan nombres cortos; el título oficial de la CIIU Rev. 4 A.C. aparece al pasar el cursor o tocar cada barra. Las actividades de tecnología llevan su título oficial.</p>
       <p><b>Privacidad:</b> el tablero solo consulta conteos agregados a la API pública. No descarga ni almacena nombres, documentos ni datos de contacto.</p>
     </details>
   </main>
@@ -211,7 +211,7 @@ a{color:#0B7F97}
       rel.style.width = (100 * f.al_dia / max) + '%';
       pista.appendChild(rel); linea.append(pista, el('span', 'b-val', int(f.al_dia) + ' · ' + pct(f.pct_al_dia)));
       fila.append(el('div', 'b-et', f.sector), linea); box.appendChild(fila);
-      const ver = (ev) => { const [px, py] = punto(ev, box); tip.show(f.sector, ['Al día: ' + int(f.al_dia) + ' (' + pct(f.pct_al_dia) + ')', 'Nuevas en el año: ' + int(f.nuevas) + ' (' + pct(f.pct_nuevas) + ')'], px, py); };
+      const ver = (ev) => { const [px, py] = punto(ev, box); tip.show(f.oficial || f.sector, ['Al día: ' + int(f.al_dia) + ' (' + pct(f.pct_al_dia) + ')', 'Nuevas en el año: ' + int(f.nuevas) + ' (' + pct(f.pct_nuevas) + ')'], px, py); };
       fila.addEventListener('pointermove', ver); fila.addEventListener('pointerdown', ver); fila.addEventListener('pointerleave', () => tip.hide());
     });
   }
