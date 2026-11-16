@@ -6,7 +6,7 @@ import { writeFile, mkdir } from 'node:fs/promises';
 
 const BASE = 'https://www.datos.gov.co/resource/c82u-588k.json';
 const CAMARAS = ['VALLEDUPAR', 'AGUACHICA'];
-const LIMITE = 50000;
+const LIMITE = 500000;
 const EN_CAMARAS = `camara_comercio in (${CAMARAS.map((c) => `'${c}'`).join(',')})`;
 const ACTIVAS = ['ACTIVA', 'MATRÍCULA NUEVA, CONSTITUCIÓN POR TRASLADO'];
 
@@ -43,7 +43,6 @@ const SECCIONES = [
   ['Hogares empleadores', 97, 98, 'Actividades de los hogares individuales en calidad de empleadores; actividades no diferenciadas de los hogares individuales como productores de bienes y servicios para uso propio'],
   ['Organizaciones extraterritoriales', 99, 99, 'Actividades de organizaciones y entidades extraterritoriales'],
 ];
-const OFICIAL = Object.fromEntries(SECCIONES.map(([corto, , , oficial]) => [corto, oficial]));
 const sectorDe = (ciiu) => {
   if (!/^\d{4}$/.test(ciiu || '') || ciiu === '9999') return 'Sin clasificar';
   const d = Number(ciiu.slice(0, 2));
@@ -85,10 +84,6 @@ async function soql(params) {
   }
 }
 const n = (f) => Number(f.n);
-const suma = (filas, cond = () => true) => filas.reduce((t, f) => t + (cond(f) ? n(f) : 0), 0);
-const pct = (a, b) => (b ? Math.round((1000 * a) / b) / 10 : null);
-const r2 = (x) => Math.round(x * 100) / 100;
-const esEmpresa = (f) => tipoDe(f.organizacion_juridica) !== ESAL;
 
 const hoy = new Date().toISOString().slice(0, 10).replaceAll('-', '');
 const [{ m: corte }] = await soql({ $select: 'max(fecha_matricula) as m', $where: `${EN_CAMARAS} AND fecha_matricula <= '${hoy}'` });
@@ -98,96 +93,86 @@ const ANIO = Number(corte.slice(0, 4)), MMDD = corte.slice(4);
 // de enero a marzo se sigue tomando como referencia el año anterior.
 const REF = Number(MMDD.slice(0, 2)) >= 4 ? ANIO : ANIO - 1;
 const estados = ACTIVAS.map((e) => `'${e}'`).join(',');
-const tramo = (campo) => `((${campo} between '${ANIO}0101' and '${corte}') OR (${campo} between '${ANIO - 1}0101' and '${ANIO - 1}${MMDD}'))`;
+const ANIOS = Array.from({ length: 11 }, (_, i) => ANIO - 10 + i);
+const COHORTES = Array.from({ length: 10 }, (_, i) => REF - 10 + i);
+const MESES = [];
+for (let a = ANIO - 2; a <= ANIO; a++) for (let m = 1; m <= 12; m++) { const ym = `${a}${String(m).padStart(2, '0')}`; if (ym <= corte.slice(0, 6)) MESES.push(ym); }
+const TIPOS = ['Persona natural', 'SAS', 'Otras sociedades', ESAL];
+const INICIO = `${REF - 10}0101`;
 
-const [base, cancel, ytdNuevas, ytdCancel, ciiuAlDia, ciiuNuevas] = await Promise.all([
-  soql({ $select: 'camara_comercio,substring(fecha_matricula,1,4) as anio,organizacion_juridica,estado_matricula,ultimo_ano_renovado,count(*) as n',
-    $where: EN_CAMARAS, $group: 'camara_comercio,anio,organizacion_juridica,estado_matricula,ultimo_ano_renovado' }),
-  soql({ $select: 'camara_comercio,substring(fecha_cancelacion,1,4) as anio,organizacion_juridica,count(*) as n',
-    $where: `${EN_CAMARAS} AND fecha_cancelacion is not null`, $group: 'camara_comercio,anio,organizacion_juridica' }),
-  soql({ $select: 'camara_comercio,substring(fecha_matricula,1,4) as anio,organizacion_juridica,count(*) as n',
-    $where: `${EN_CAMARAS} AND ${tramo('fecha_matricula')}`, $group: 'camara_comercio,anio,organizacion_juridica' }),
-  soql({ $select: 'camara_comercio,substring(fecha_cancelacion,1,4) as anio,organizacion_juridica,count(*) as n',
-    $where: `${EN_CAMARAS} AND ${tramo('fecha_cancelacion')}`, $group: 'camara_comercio,anio,organizacion_juridica' }),
-  soql({ $select: 'camara_comercio,cod_ciiu_act_econ_pri,organizacion_juridica,count(*) as n',
-    $where: `${EN_CAMARAS} AND estado_matricula in (${estados}) AND ultimo_ano_renovado >= '${REF}'`,
-    $group: 'camara_comercio,cod_ciiu_act_econ_pri,organizacion_juridica' }),
-  soql({ $select: 'camara_comercio,cod_ciiu_act_econ_pri,organizacion_juridica,count(*) as n',
-    $where: `${EN_CAMARAS} AND fecha_matricula between '${ANIO}0101' and '${corte}'`,
-    $group: 'camara_comercio,cod_ciiu_act_econ_pri,organizacion_juridica' }),
+// Todas las consultas agrupan por cámara, actividad (CIIU) y organización jurídica.
+const DIMS = 'camara_comercio,cod_ciiu_act_econ_pri,organizacion_juridica';
+const q = (campo, alias, where) => soql({
+  $select: `${DIMS}${campo ? `,${campo} as ${alias}` : ''},count(*) as n`,
+  $where: `${EN_CAMARAS} AND ${where}`, $group: `${DIMS}${campo ? `,${alias}` : ''}` });
+const activaSql = `estado_matricula in (${estados})`;
+const alDiaSql = `${activaSql} AND ultimo_ano_renovado >= '${REF}'`;
+const [activasQ, alDiaQ, nuevasQ, cancelQ, cohorteQ, nuevasPrevQ, cancelPrevQ] = await Promise.all([
+  q('', '', activaSql),
+  q('', '', alDiaSql),
+  q('substring(fecha_matricula,1,6)', 'ym', `fecha_matricula between '${INICIO}' and '${corte}'`),
+  q('substring(fecha_cancelacion,1,6)', 'ym', `fecha_cancelacion between '${INICIO}' and '${corte}'`),
+  q('substring(fecha_matricula,1,4)', 'anio', `fecha_matricula between '${INICIO}' and '${REF - 1}1231' AND ${alDiaSql}`),
+  q('', '', `fecha_matricula between '${ANIO - 1}0101' and '${ANIO - 1}${MMDD}'`),
+  q('', '', `fecha_cancelacion between '${ANIO - 1}0101' and '${ANIO - 1}${MMDD}'`),
 ]);
 
-const activa = (f) => ACTIVAS.includes(f.estado_matricula);
-const alDia = (f) => activa(f) && Number(f.ultimo_ano_renovado) >= REF;
 const titulo = (c) => c.charAt(0) + c.slice(1).toLowerCase();
-
+const ceros = (k) => new Array(k).fill(0);
 const camaras = {};
 for (const cam of CAMARAS) {
   const de = (filas) => filas.filter((f) => f.camara_comercio === cam);
-  const b = de(base), bEmp = b.filter(esEmpresa);
-  const anioDe = (filas, a) => suma(filas.filter(esEmpresa), (f) => Number(f.anio) === a);
-  const nuevas = anioDe(de(ytdNuevas), ANIO), nuevasPrev = anioDe(de(ytdNuevas), ANIO - 1);
-  const cancs = anioDe(de(ytdCancel), ANIO), cancsPrev = anioDe(de(ytdCancel), ANIO - 1);
-  const activas = suma(bEmp, activa), alDiaN = suma(bEmp, alDia);
-
-  const resumen = {
-    activas, al_dia: alDiaN, pct_al_dia: pct(alDiaN, activas),
-    nuevas, nuevas_prev: nuevasPrev, var_nuevas_pct: pct(nuevas - nuevasPrev, nuevasPrev),
-    canceladas: cancs, canceladas_prev: cancsPrev, var_canceladas_pct: pct(cancs - cancsPrev, cancsPrev),
-    nuevas_por_cancelada: cancs ? r2(nuevas / cancs) : null,
-    entidades_sin_animo_lucro_al_dia: suma(b, (f) => !esEmpresa(f) && alDia(f)),
+  // Cubo sector x tipo: la página suma las celdas según los filtros elegidos.
+  const cubo = new Map();
+  const celda = (f) => {
+    const k = `${sectorDe(f.cod_ciiu_act_econ_pri)}|${tipoDe(f.organizacion_juridica)}`;
+    if (!cubo.has(k)) cubo.set(k, { activas: 0, al_dia: 0, nuevas_prev: 0, canceladas_prev: 0,
+      nuevas_anio: ceros(ANIOS.length), canceladas_anio: ceros(ANIOS.length),
+      nuevas_mes: ceros(MESES.length), canceladas_mes: ceros(MESES.length),
+      cohorte: ceros(COHORTES.length), cohorte_al_dia: ceros(COHORTES.length) });
+    return cubo.get(k);
   };
+  for (const f of de(activasQ)) celda(f).activas += n(f);
+  for (const f of de(alDiaQ)) celda(f).al_dia += n(f);
+  for (const f of de(nuevasPrevQ)) celda(f).nuevas_prev += n(f);
+  for (const f of de(cancelPrevQ)) celda(f).canceladas_prev += n(f);
+  const porPeriodo = (filas, anual, mensual) => {
+    for (const f of de(filas)) {
+      const c = celda(f), a = ANIOS.indexOf(Number(f.ym.slice(0, 4))), m = MESES.indexOf(f.ym);
+      if (a >= 0) c[anual][a] += n(f);
+      if (m >= 0) c[mensual][m] += n(f);
+    }
+  };
+  porPeriodo(nuevasQ, 'nuevas_anio', 'nuevas_mes');
+  porPeriodo(cancelQ, 'canceladas_anio', 'canceladas_mes');
+  for (const f of de(nuevasQ)) { const i = COHORTES.indexOf(Number(f.ym.slice(0, 4))); if (i >= 0) celda(f).cohorte[i] += n(f); }
+  for (const f of de(cohorteQ)) { const i = COHORTES.indexOf(Number(f.anio)); if (i >= 0) celda(f).cohorte_al_dia[i] += n(f); }
+  const celdas = [...cubo].map(([k, v]) => { const [sector, tipo] = k.split('|'); return { sector, tipo, ...v }; });
 
-  const anual = [];
-  for (let a = ANIO - 10; a <= ANIO; a++) {
-    const nv = suma(bEmp, (f) => Number(f.anio) === a), cn = anioDe(de(cancel), a);
-    anual.push({ anio: a, nuevas: nv, canceladas: cn, saldo: nv - cn, parcial: a === ANIO });
-  }
-
-  const acum = (filas, clave) => filas.reduce((m, f) => m.set(clave(f), (m.get(clave(f)) || 0) + n(f)), new Map());
-  const sAl = acum(de(ciiuAlDia).filter(esEmpresa), (f) => sectorDe(f.cod_ciiu_act_econ_pri));
-  const sNu = acum(de(ciiuNuevas).filter(esEmpresa), (f) => sectorDe(f.cod_ciiu_act_econ_pri));
-  const totAl = [...sAl.values()].reduce((x, y) => x + y, 0), totNu = [...sNu.values()].reduce((x, y) => x + y, 0);
-  const sectores = [...new Set([...sAl.keys(), ...sNu.keys()])]
-    .map((s) => ({ sector: s, oficial: OFICIAL[s] || s, al_dia: sAl.get(s) || 0, pct_al_dia: pct(sAl.get(s) || 0, totAl), nuevas: sNu.get(s) || 0, pct_nuevas: pct(sNu.get(s) || 0, totNu) }))
-    .sort((x, y) => y.al_dia - x.al_dia);
-
-  const tAl = acum(b.filter(alDia), (f) => tipoDe(f.organizacion_juridica));
-  const tNu = acum(b.filter((f) => Number(f.anio) === ANIO), (f) => tipoDe(f.organizacion_juridica));
-  const tTotAl = [...tAl.values()].reduce((x, y) => x + y, 0), tTotNu = [...tNu.values()].reduce((x, y) => x + y, 0);
-  const tipos = ['Persona natural', 'SAS', 'Otras sociedades', ESAL]
-    .map((t) => ({ tipo: t, al_dia: tAl.get(t) || 0, pct_al_dia: pct(tAl.get(t) || 0, tTotAl), nuevas: tNu.get(t) || 0, pct_nuevas: pct(tNu.get(t) || 0, tTotNu) }))
-    .sort((x, y) => y.al_dia - x.al_dia);
-
-  const supervivencia = [];
-  for (let a = REF - 10; a <= REF - 1; a++) {
-    const coh = bEmp.filter((f) => Number(f.anio) === a);
-    const grupo = (filas) => ({ matriculadas: suma(filas), al_dia: suma(filas, alDia), pct_al_dia: pct(suma(filas, alDia), suma(filas)) });
-    supervivencia.push({ cohorte: a, todas: grupo(coh),
-      naturales: grupo(coh.filter((f) => f.organizacion_juridica === 'PERSONA NATURAL')),
-      sociedades: grupo(coh.filter((f) => f.organizacion_juridica !== 'PERSONA NATURAL')) });
-  }
-
-  const cAl = acum(de(ciiuAlDia).filter(esEmpresa), (f) => f.cod_ciiu_act_econ_pri);
-  const cNu = acum(de(ciiuNuevas).filter(esEmpresa), (f) => f.cod_ciiu_act_econ_pri);
-  const tecnologia = Object.entries(TECNOLOGIA)
-    .map(([ciiu, actividad]) => ({ ciiu, actividad, al_dia: cAl.get(ciiu) || 0, nuevas: cNu.get(ciiu) || 0 }))
-    .sort((x, y) => y.al_dia - x.al_dia);
+  const tecnologia = Object.entries(TECNOLOGIA).map(([ciiu, actividad]) => {
+    const por_tipo = Object.fromEntries(TIPOS.map((t) => [t, { al_dia: 0, nuevas: 0 }]));
+    for (const f of de(alDiaQ)) if (f.cod_ciiu_act_econ_pri === ciiu) por_tipo[tipoDe(f.organizacion_juridica)].al_dia += n(f);
+    for (const f of de(nuevasQ)) if (f.cod_ciiu_act_econ_pri === ciiu && f.ym.startsWith(String(ANIO))) por_tipo[tipoDe(f.organizacion_juridica)].nuevas += n(f);
+    return { ciiu, actividad, por_tipo };
+  });
 
   // Control de calidad: si algo viene vacío, no se sobrescribe el archivo publicado.
-  if (!(activas > 0 && alDiaN > 0 && nuevas > 0 && sectores.length > 5)) throw new Error(`Datos sospechosos para ${cam}; no se actualiza.`);
-  camaras[cam] = { nombre: titulo(cam), resumen, anual, sectores, tipos, supervivencia, tecnologia };
+  const emp = celdas.filter((c) => c.tipo !== ESAL);
+  const alDiaN = emp.reduce((t, c) => t + c.al_dia, 0), nuevasN = emp.reduce((t, c) => t + c.nuevas_anio.at(-1), 0);
+  if (!(alDiaN > 0 && nuevasN > 0 && new Set(emp.map((c) => c.sector)).size > 5)) throw new Error(`Datos sospechosos para ${cam}; no se actualiza.`);
+  camaras[cam] = { nombre: titulo(cam), al_dia: alDiaN, nuevas: nuevasN, celdas, tecnologia };
 }
 
 const salida = {
   meta: {
     corte: `${corte.slice(0, 4)}-${corte.slice(4, 6)}-${corte.slice(6)}`, anio: ANIO, anio_referencia: REF,
-    generado: new Date().toISOString(),
+    generado: new Date().toISOString(), anios: ANIOS, meses: MESES, cohortes: COHORTES, tipos: TIPOS, esal: ESAL,
+    sectores: SECCIONES.map(([corto, , , oficial]) => ({ corto, oficial })),
     fuente: 'Confecámaras (RUES): Personas Naturales, Personas Jurídicas y Entidades Sin Ánimo de Lucro',
     fuente_url: 'https://www.datos.gov.co/d/c82u-588k', licencia: 'CC BY-SA 4.0',
   },
   camaras,
 };
 await mkdir(new URL('../docs/', import.meta.url), { recursive: true });
-await writeFile(new URL('../docs/data.json', import.meta.url), JSON.stringify(salida, null, 1) + '\n');
-console.log(`OK: corte ${salida.meta.corte}, referencia ${REF}.`, CAMARAS.map((c) => `${c}: ${camaras[c].resumen.al_dia} al día, ${camaras[c].resumen.nuevas} nuevas`).join(' | '));
+await writeFile(new URL('../docs/data.json', import.meta.url), JSON.stringify(salida) + '\n');
+console.log(`OK: corte ${salida.meta.corte}, referencia ${REF}.`, CAMARAS.map((c) => `${c}: ${camaras[c].al_dia} al día, ${camaras[c].nuevas} nuevas`).join(' | '));
