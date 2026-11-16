@@ -1,0 +1,1064 @@
+{
+ "meta": {
+  "corte": "2026-11-06",
+  "anio": 2026,
+  "anio_referencia": 2026,
+  "generado": "2026-11-16T07:57:25.055Z",
+  "fuente": "Confecámaras (RUES): Personas Naturales, Personas Jurídicas y Entidades Sin Ánimo de Lucro",
+  "fuente_url": "https://www.datos.gov.co/d/c82u-588k",
+  "licencia": "CC BY-SA 4.0"
+ },
+ "camaras": {
+  "VALLEDUPAR": {
+   "nombre": "Valledupar",
+   "resumen": {
+    "activas": 45654,
+    "al_dia": 20652,
+    "pct_al_dia": 45.2,
+    "nuevas": 4617,
+    "nuevas_prev": 4310,
+    "var_nuevas_pct": 7.1,
+    "canceladas": 3066,
+    "canceladas_prev": 3367,
+    "var_canceladas_pct": -8.9,
+    "nuevas_por_cancelada": 1.51,
+    "entidades_sin_animo_lucro_al_dia": 2392
+   },
+   "anual": [
+    {
+     "anio": 2016,
+     "nuevas": 4656,
+     "canceladas": 2284,
+     "saldo": 2372,
+     "parcial": false
+    },
+    {
+     "anio": 2017,
+     "nuevas": 4574,
+     "canceladas": 3271,
+     "saldo": 1303,
+     "parcial": false
+    },
+    {
+     "anio": 2018,
+     "nuevas": 4437,
+     "canceladas": 3152,
+     "saldo": 1285,
+     "parcial": false
+    },
+    {
+     "anio": 2019,
+     "nuevas": 4210,
+     "canceladas": 3247,
+     "saldo": 963,
+     "parcial": false
+    },
+    {
+     "anio": 2020,
+     "nuevas": 4696,
+     "canceladas": 3511,
+     "saldo": 1185,
+     "parcial": false
+    },
+    {
+     "anio": 2021,
+     "nuevas": 4894,
+     "canceladas": 3260,
+     "saldo": 1634,
+     "parcial": false
+    },
+    {
+     "anio": 2022,
+     "nuevas": 4976,
+     "canceladas": 3461,
+     "saldo": 1515,
+     "parcial": false
+    },
+    {
+     "anio": 2023,
+     "nuevas": 4852,
+     "canceladas": 3609,
+     "saldo": 1243,
+     "parcial": false
+    },
+    {
+     "anio": 2024,
+     "nuevas": 5150,
+     "canceladas": 3257,
+     "saldo": 1893,
+     "parcial": false
+    },
+    {
+     "anio": 2025,
+     "nuevas": 4693,
+     "canceladas": 3508,
+     "saldo": 1185,
+     "parcial": false
+    },
+    {
+     "anio": 2026,
+     "nuevas": 4617,
+     "canceladas": 3066,
+     "saldo": 1551,
+     "parcial": true
+    }
+   ],
+   "sectores": [
+    {
+     "sector": "Comercio y reparación de vehículos",
+     "al_dia": 9240,
+     "pct_al_dia": 44.7,
+     "nuevas": 1928,
+     "pct_nuevas": 41.8
+    },
+    {
+     "sector": "Alojamiento y comidas",
+     "al_dia": 2669,
+     "pct_al_dia": 12.9,
+     "nuevas": 740,
+     "pct_nuevas": 16
+    },
+    {
+     "sector": "Industria manufacturera",
+     "al_dia": 1587,
+     "pct_al_dia": 7.7,
+     "nuevas": 342,
+     "pct_nuevas": 7.4
+    },
+    {
+     "sector": "Construcción",
+     "al_dia": 1514,
+     "pct_al_dia": 7.3,
+     "nuevas": 449,
+     "pct_nuevas": 9.7
+    },
+    {
+     "sector": "Profesionales, científicas y técnicas",
+     "al_dia": 1077,
+     "pct_al_dia": 5.2,
+     "nuevas": 232,
+     "pct_nuevas": 5
+    },
+    {
+     "sector": "Otros servicios",
+     "al_dia": 718,
+     "pct_al_dia": 3.5,
+     "nuevas": 195,
+     "pct_nuevas": 4.2
+    },
+    {
+     "sector": "Transporte y almacenamiento",
+     "al_dia": 624,
+     "pct_al_dia": 3,
+     "nuevas": 152,
+     "pct_nuevas": 3.3
+    },
+    {
+     "sector": "Servicios administrativos y de apoyo",
+     "al_dia": 597,
+     "pct_al_dia": 2.9,
+     "nuevas": 131,
+     "pct_nuevas": 2.8
+    },
+    {
+     "sector": "Agro, ganadería y pesca",
+     "al_dia": 490,
+     "pct_al_dia": 2.4,
+     "nuevas": 66,
+     "pct_nuevas": 1.4
+    },
+    {
+     "sector": "Salud y asistencia social",
+     "al_dia": 452,
+     "pct_al_dia": 2.2,
+     "nuevas": 50,
+     "pct_nuevas": 1.1
+    },
+    {
+     "sector": "Inmobiliarias",
+     "al_dia": 408,
+     "pct_al_dia": 2,
+     "nuevas": 78,
+     "pct_nuevas": 1.7
+    },
+    {
+     "sector": "Arte, entretenimiento y recreación",
+     "al_dia": 377,
+     "pct_al_dia": 1.8,
+     "nuevas": 66,
+     "pct_nuevas": 1.4
+    },
+    {
+     "sector": "Información y comunicaciones",
+     "al_dia": 345,
+     "pct_al_dia": 1.7,
+     "nuevas": 95,
+     "pct_nuevas": 2.1
+    },
+    {
+     "sector": "Finanzas y seguros",
+     "al_dia": 204,
+     "pct_al_dia": 1,
+     "nuevas": 38,
+     "pct_nuevas": 0.8
+    },
+    {
+     "sector": "Agua y saneamiento",
+     "al_dia": 120,
+     "pct_al_dia": 0.6,
+     "nuevas": 14,
+     "pct_nuevas": 0.3
+    },
+    {
+     "sector": "Educación",
+     "al_dia": 113,
+     "pct_al_dia": 0.5,
+     "nuevas": 23,
+     "pct_nuevas": 0.5
+    },
+    {
+     "sector": "Minas y canteras",
+     "al_dia": 71,
+     "pct_al_dia": 0.3,
+     "nuevas": 9,
+     "pct_nuevas": 0.2
+    },
+    {
+     "sector": "Electricidad y gas",
+     "al_dia": 36,
+     "pct_al_dia": 0.2,
+     "nuevas": 8,
+     "pct_nuevas": 0.2
+    },
+    {
+     "sector": "Administración pública",
+     "al_dia": 10,
+     "pct_al_dia": 0,
+     "nuevas": 1,
+     "pct_nuevas": 0
+    }
+   ],
+   "tipos": [
+    {
+     "tipo": "Persona natural",
+     "al_dia": 14380,
+     "pct_al_dia": 62.4,
+     "nuevas": 3264,
+     "pct_nuevas": 64.9
+    },
+    {
+     "tipo": "SAS",
+     "al_dia": 6016,
+     "pct_al_dia": 26.1,
+     "nuevas": 1343,
+     "pct_nuevas": 26.7
+    },
+    {
+     "tipo": "Entidades sin ánimo de lucro y solidarias",
+     "al_dia": 2392,
+     "pct_al_dia": 10.4,
+     "nuevas": 409,
+     "pct_nuevas": 8.1
+    },
+    {
+     "tipo": "Otras sociedades",
+     "al_dia": 256,
+     "pct_al_dia": 1.1,
+     "nuevas": 10,
+     "pct_nuevas": 0.2
+    }
+   ],
+   "supervivencia": [
+    {
+     "cohorte": 2016,
+     "todas": {
+      "matriculadas": 4656,
+      "al_dia": 627,
+      "pct_al_dia": 13.5
+     },
+     "naturales": {
+      "matriculadas": 3693,
+      "al_dia": 391,
+      "pct_al_dia": 10.6
+     },
+     "sociedades": {
+      "matriculadas": 963,
+      "al_dia": 236,
+      "pct_al_dia": 24.5
+     }
+    },
+    {
+     "cohorte": 2017,
+     "todas": {
+      "matriculadas": 4574,
+      "al_dia": 695,
+      "pct_al_dia": 15.2
+     },
+     "naturales": {
+      "matriculadas": 3733,
+      "al_dia": 476,
+      "pct_al_dia": 12.8
+     },
+     "sociedades": {
+      "matriculadas": 841,
+      "al_dia": 219,
+      "pct_al_dia": 26
+     }
+    },
+    {
+     "cohorte": 2018,
+     "todas": {
+      "matriculadas": 4437,
+      "al_dia": 736,
+      "pct_al_dia": 16.6
+     },
+     "naturales": {
+      "matriculadas": 3716,
+      "al_dia": 515,
+      "pct_al_dia": 13.9
+     },
+     "sociedades": {
+      "matriculadas": 721,
+      "al_dia": 221,
+      "pct_al_dia": 30.7
+     }
+    },
+    {
+     "cohorte": 2019,
+     "todas": {
+      "matriculadas": 4210,
+      "al_dia": 789,
+      "pct_al_dia": 18.7
+     },
+     "naturales": {
+      "matriculadas": 3431,
+      "al_dia": 533,
+      "pct_al_dia": 15.5
+     },
+     "sociedades": {
+      "matriculadas": 779,
+      "al_dia": 256,
+      "pct_al_dia": 32.9
+     }
+    },
+    {
+     "cohorte": 2020,
+     "todas": {
+      "matriculadas": 4696,
+      "al_dia": 916,
+      "pct_al_dia": 19.5
+     },
+     "naturales": {
+      "matriculadas": 3813,
+      "al_dia": 639,
+      "pct_al_dia": 16.8
+     },
+     "sociedades": {
+      "matriculadas": 883,
+      "al_dia": 277,
+      "pct_al_dia": 31.4
+     }
+    },
+    {
+     "cohorte": 2021,
+     "todas": {
+      "matriculadas": 4894,
+      "al_dia": 1208,
+      "pct_al_dia": 24.7
+     },
+     "naturales": {
+      "matriculadas": 3950,
+      "al_dia": 843,
+      "pct_al_dia": 21.3
+     },
+     "sociedades": {
+      "matriculadas": 944,
+      "al_dia": 365,
+      "pct_al_dia": 38.7
+     }
+    },
+    {
+     "cohorte": 2022,
+     "todas": {
+      "matriculadas": 4976,
+      "al_dia": 1467,
+      "pct_al_dia": 29.5
+     },
+     "naturales": {
+      "matriculadas": 4026,
+      "al_dia": 1059,
+      "pct_al_dia": 26.3
+     },
+     "sociedades": {
+      "matriculadas": 950,
+      "al_dia": 408,
+      "pct_al_dia": 42.9
+     }
+    },
+    {
+     "cohorte": 2023,
+     "todas": {
+      "matriculadas": 4852,
+      "al_dia": 1601,
+      "pct_al_dia": 33
+     },
+     "naturales": {
+      "matriculadas": 3884,
+      "al_dia": 1146,
+      "pct_al_dia": 29.5
+     },
+     "sociedades": {
+      "matriculadas": 968,
+      "al_dia": 455,
+      "pct_al_dia": 47
+     }
+    },
+    {
+     "cohorte": 2024,
+     "todas": {
+      "matriculadas": 5150,
+      "al_dia": 2035,
+      "pct_al_dia": 39.5
+     },
+     "naturales": {
+      "matriculadas": 4066,
+      "al_dia": 1436,
+      "pct_al_dia": 35.3
+     },
+     "sociedades": {
+      "matriculadas": 1084,
+      "al_dia": 599,
+      "pct_al_dia": 55.3
+     }
+    },
+    {
+     "cohorte": 2025,
+     "todas": {
+      "matriculadas": 4693,
+      "al_dia": 2322,
+      "pct_al_dia": 49.5
+     },
+     "naturales": {
+      "matriculadas": 3578,
+      "al_dia": 1613,
+      "pct_al_dia": 45.1
+     },
+     "sociedades": {
+      "matriculadas": 1115,
+      "al_dia": 709,
+      "pct_al_dia": 63.6
+     }
+    }
+   ],
+   "tecnologia": [
+    {
+     "ciiu": "4741",
+     "actividad": "Venta de computadores y equipos de telecomunicaciones",
+     "al_dia": 343,
+     "nuevas": 63
+    },
+    {
+     "ciiu": "6201",
+     "actividad": "Desarrollo de software",
+     "al_dia": 97,
+     "nuevas": 38
+    },
+    {
+     "ciiu": "6190",
+     "actividad": "Otras telecomunicaciones",
+     "al_dia": 56,
+     "nuevas": 9
+    },
+    {
+     "ciiu": "9511",
+     "actividad": "Reparación de computadores",
+     "al_dia": 45,
+     "nuevas": 4
+    },
+    {
+     "ciiu": "6110",
+     "actividad": "Telecomunicaciones alámbricas",
+     "al_dia": 40,
+     "nuevas": 11
+    },
+    {
+     "ciiu": "8020",
+     "actividad": "Sistemas de seguridad (alarmas, cámaras)",
+     "al_dia": 39,
+     "nuevas": 4
+    },
+    {
+     "ciiu": "9512",
+     "actividad": "Reparación de equipos de comunicación",
+     "al_dia": 30,
+     "nuevas": 14
+    },
+    {
+     "ciiu": "6120",
+     "actividad": "Telecomunicaciones inalámbricas",
+     "al_dia": 24,
+     "nuevas": 3
+    },
+    {
+     "ciiu": "6202",
+     "actividad": "Consultoría e instalaciones informáticas",
+     "al_dia": 17,
+     "nuevas": 10
+    },
+    {
+     "ciiu": "6311",
+     "actividad": "Procesamiento de datos y hosting",
+     "al_dia": 10,
+     "nuevas": 2
+    },
+    {
+     "ciiu": "6209",
+     "actividad": "Otros servicios informáticos",
+     "al_dia": 7,
+     "nuevas": 3
+    },
+    {
+     "ciiu": "6130",
+     "actividad": "Telecomunicaciones satelitales",
+     "al_dia": 4,
+     "nuevas": 1
+    },
+    {
+     "ciiu": "6312",
+     "actividad": "Portales web",
+     "al_dia": 4,
+     "nuevas": 2
+    }
+   ]
+  },
+  "AGUACHICA": {
+   "nombre": "Aguachica",
+   "resumen": {
+    "activas": 17426,
+    "al_dia": 9287,
+    "pct_al_dia": 53.3,
+    "nuevas": 1599,
+    "nuevas_prev": 1723,
+    "var_nuevas_pct": -7.2,
+    "canceladas": 1543,
+    "canceladas_prev": 1350,
+    "var_canceladas_pct": 14.3,
+    "nuevas_por_cancelada": 1.04,
+    "entidades_sin_animo_lucro_al_dia": 938
+   },
+   "anual": [
+    {
+     "anio": 2016,
+     "nuevas": 1520,
+     "canceladas": 937,
+     "saldo": 583,
+     "parcial": false
+    },
+    {
+     "anio": 2017,
+     "nuevas": 1620,
+     "canceladas": 1166,
+     "saldo": 454,
+     "parcial": false
+    },
+    {
+     "anio": 2018,
+     "nuevas": 1882,
+     "canceladas": 1143,
+     "saldo": 739,
+     "parcial": false
+    },
+    {
+     "anio": 2019,
+     "nuevas": 1831,
+     "canceladas": 964,
+     "saldo": 867,
+     "parcial": false
+    },
+    {
+     "anio": 2020,
+     "nuevas": 1807,
+     "canceladas": 1083,
+     "saldo": 724,
+     "parcial": false
+    },
+    {
+     "anio": 2021,
+     "nuevas": 2315,
+     "canceladas": 1020,
+     "saldo": 1295,
+     "parcial": false
+    },
+    {
+     "anio": 2022,
+     "nuevas": 2215,
+     "canceladas": 1253,
+     "saldo": 962,
+     "parcial": false
+    },
+    {
+     "anio": 2023,
+     "nuevas": 1935,
+     "canceladas": 1358,
+     "saldo": 577,
+     "parcial": false
+    },
+    {
+     "anio": 2024,
+     "nuevas": 1724,
+     "canceladas": 1475,
+     "saldo": 249,
+     "parcial": false
+    },
+    {
+     "anio": 2025,
+     "nuevas": 1854,
+     "canceladas": 1403,
+     "saldo": 451,
+     "parcial": false
+    },
+    {
+     "anio": 2026,
+     "nuevas": 1599,
+     "canceladas": 1543,
+     "saldo": 56,
+     "parcial": true
+    }
+   ],
+   "sectores": [
+    {
+     "sector": "Comercio y reparación de vehículos",
+     "al_dia": 4806,
+     "pct_al_dia": 51.7,
+     "nuevas": 750,
+     "pct_nuevas": 46.9
+    },
+    {
+     "sector": "Alojamiento y comidas",
+     "al_dia": 1317,
+     "pct_al_dia": 14.2,
+     "nuevas": 302,
+     "pct_nuevas": 18.9
+    },
+    {
+     "sector": "Industria manufacturera",
+     "al_dia": 733,
+     "pct_al_dia": 7.9,
+     "nuevas": 145,
+     "pct_nuevas": 9.1
+    },
+    {
+     "sector": "Construcción",
+     "al_dia": 364,
+     "pct_al_dia": 3.9,
+     "nuevas": 52,
+     "pct_nuevas": 3.3
+    },
+    {
+     "sector": "Otros servicios",
+     "al_dia": 310,
+     "pct_al_dia": 3.3,
+     "nuevas": 64,
+     "pct_nuevas": 4
+    },
+    {
+     "sector": "Transporte y almacenamiento",
+     "al_dia": 291,
+     "pct_al_dia": 3.1,
+     "nuevas": 44,
+     "pct_nuevas": 2.8
+    },
+    {
+     "sector": "Profesionales, científicas y técnicas",
+     "al_dia": 235,
+     "pct_al_dia": 2.5,
+     "nuevas": 42,
+     "pct_nuevas": 2.6
+    },
+    {
+     "sector": "Arte, entretenimiento y recreación",
+     "al_dia": 231,
+     "pct_al_dia": 2.5,
+     "nuevas": 51,
+     "pct_nuevas": 3.2
+    },
+    {
+     "sector": "Agro, ganadería y pesca",
+     "al_dia": 220,
+     "pct_al_dia": 2.4,
+     "nuevas": 25,
+     "pct_nuevas": 1.6
+    },
+    {
+     "sector": "Servicios administrativos y de apoyo",
+     "al_dia": 192,
+     "pct_al_dia": 2.1,
+     "nuevas": 37,
+     "pct_nuevas": 2.3
+    },
+    {
+     "sector": "Minas y canteras",
+     "al_dia": 145,
+     "pct_al_dia": 1.6,
+     "nuevas": 23,
+     "pct_nuevas": 1.4
+    },
+    {
+     "sector": "Información y comunicaciones",
+     "al_dia": 139,
+     "pct_al_dia": 1.5,
+     "nuevas": 26,
+     "pct_nuevas": 1.6
+    },
+    {
+     "sector": "Salud y asistencia social",
+     "al_dia": 91,
+     "pct_al_dia": 1,
+     "nuevas": 10,
+     "pct_nuevas": 0.6
+    },
+    {
+     "sector": "Agua y saneamiento",
+     "al_dia": 82,
+     "pct_al_dia": 0.9,
+     "nuevas": 2,
+     "pct_nuevas": 0.1
+    },
+    {
+     "sector": "Inmobiliarias",
+     "al_dia": 62,
+     "pct_al_dia": 0.7,
+     "nuevas": 11,
+     "pct_nuevas": 0.7
+    },
+    {
+     "sector": "Educación",
+     "al_dia": 31,
+     "pct_al_dia": 0.3,
+     "nuevas": 7,
+     "pct_nuevas": 0.4
+    },
+    {
+     "sector": "Finanzas y seguros",
+     "al_dia": 26,
+     "pct_al_dia": 0.3,
+     "nuevas": 4,
+     "pct_nuevas": 0.3
+    },
+    {
+     "sector": "Electricidad y gas",
+     "al_dia": 9,
+     "pct_al_dia": 0.1,
+     "nuevas": 3,
+     "pct_nuevas": 0.2
+    },
+    {
+     "sector": "Administración pública",
+     "al_dia": 2,
+     "pct_al_dia": 0,
+     "nuevas": 1,
+     "pct_nuevas": 0.1
+    },
+    {
+     "sector": "Hogares empleadores",
+     "al_dia": 1,
+     "pct_al_dia": 0,
+     "nuevas": 0,
+     "pct_nuevas": 0
+    }
+   ],
+   "tipos": [
+    {
+     "tipo": "Persona natural",
+     "al_dia": 7524,
+     "pct_al_dia": 73.6,
+     "nuevas": 1312,
+     "pct_nuevas": 77.5
+    },
+    {
+     "tipo": "SAS",
+     "al_dia": 1709,
+     "pct_al_dia": 16.7,
+     "nuevas": 286,
+     "pct_nuevas": 16.9
+    },
+    {
+     "tipo": "Entidades sin ánimo de lucro y solidarias",
+     "al_dia": 938,
+     "pct_al_dia": 9.2,
+     "nuevas": 94,
+     "pct_nuevas": 5.6
+    },
+    {
+     "tipo": "Otras sociedades",
+     "al_dia": 54,
+     "pct_al_dia": 0.5,
+     "nuevas": 1,
+     "pct_nuevas": 0.1
+    }
+   ],
+   "supervivencia": [
+    {
+     "cohorte": 2016,
+     "todas": {
+      "matriculadas": 1520,
+      "al_dia": 308,
+      "pct_al_dia": 20.3
+     },
+     "naturales": {
+      "matriculadas": 1348,
+      "al_dia": 248,
+      "pct_al_dia": 18.4
+     },
+     "sociedades": {
+      "matriculadas": 172,
+      "al_dia": 60,
+      "pct_al_dia": 34.9
+     }
+    },
+    {
+     "cohorte": 2017,
+     "todas": {
+      "matriculadas": 1620,
+      "al_dia": 332,
+      "pct_al_dia": 20.5
+     },
+     "naturales": {
+      "matriculadas": 1485,
+      "al_dia": 288,
+      "pct_al_dia": 19.4
+     },
+     "sociedades": {
+      "matriculadas": 135,
+      "al_dia": 44,
+      "pct_al_dia": 32.6
+     }
+    },
+    {
+     "cohorte": 2018,
+     "todas": {
+      "matriculadas": 1882,
+      "al_dia": 381,
+      "pct_al_dia": 20.2
+     },
+     "naturales": {
+      "matriculadas": 1653,
+      "al_dia": 293,
+      "pct_al_dia": 17.7
+     },
+     "sociedades": {
+      "matriculadas": 229,
+      "al_dia": 88,
+      "pct_al_dia": 38.4
+     }
+    },
+    {
+     "cohorte": 2019,
+     "todas": {
+      "matriculadas": 1831,
+      "al_dia": 420,
+      "pct_al_dia": 22.9
+     },
+     "naturales": {
+      "matriculadas": 1558,
+      "al_dia": 298,
+      "pct_al_dia": 19.1
+     },
+     "sociedades": {
+      "matriculadas": 273,
+      "al_dia": 122,
+      "pct_al_dia": 44.7
+     }
+    },
+    {
+     "cohorte": 2020,
+     "todas": {
+      "matriculadas": 1807,
+      "al_dia": 469,
+      "pct_al_dia": 26
+     },
+     "naturales": {
+      "matriculadas": 1505,
+      "al_dia": 346,
+      "pct_al_dia": 23
+     },
+     "sociedades": {
+      "matriculadas": 302,
+      "al_dia": 123,
+      "pct_al_dia": 40.7
+     }
+    },
+    {
+     "cohorte": 2021,
+     "todas": {
+      "matriculadas": 2315,
+      "al_dia": 630,
+      "pct_al_dia": 27.2
+     },
+     "naturales": {
+      "matriculadas": 1981,
+      "al_dia": 488,
+      "pct_al_dia": 24.6
+     },
+     "sociedades": {
+      "matriculadas": 334,
+      "al_dia": 142,
+      "pct_al_dia": 42.5
+     }
+    },
+    {
+     "cohorte": 2022,
+     "todas": {
+      "matriculadas": 2215,
+      "al_dia": 682,
+      "pct_al_dia": 30.8
+     },
+     "naturales": {
+      "matriculadas": 1939,
+      "al_dia": 560,
+      "pct_al_dia": 28.9
+     },
+     "sociedades": {
+      "matriculadas": 276,
+      "al_dia": 122,
+      "pct_al_dia": 44.2
+     }
+    },
+    {
+     "cohorte": 2023,
+     "todas": {
+      "matriculadas": 1935,
+      "al_dia": 709,
+      "pct_al_dia": 36.6
+     },
+     "naturales": {
+      "matriculadas": 1654,
+      "al_dia": 551,
+      "pct_al_dia": 33.3
+     },
+     "sociedades": {
+      "matriculadas": 281,
+      "al_dia": 158,
+      "pct_al_dia": 56.2
+     }
+    },
+    {
+     "cohorte": 2024,
+     "todas": {
+      "matriculadas": 1724,
+      "al_dia": 852,
+      "pct_al_dia": 49.4
+     },
+     "naturales": {
+      "matriculadas": 1407,
+      "al_dia": 648,
+      "pct_al_dia": 46.1
+     },
+     "sociedades": {
+      "matriculadas": 317,
+      "al_dia": 204,
+      "pct_al_dia": 64.4
+     }
+    },
+    {
+     "cohorte": 2025,
+     "todas": {
+      "matriculadas": 1854,
+      "al_dia": 976,
+      "pct_al_dia": 52.6
+     },
+     "naturales": {
+      "matriculadas": 1602,
+      "al_dia": 797,
+      "pct_al_dia": 49.8
+     },
+     "sociedades": {
+      "matriculadas": 252,
+      "al_dia": 179,
+      "pct_al_dia": 71
+     }
+    }
+   ],
+   "tecnologia": [
+    {
+     "ciiu": "4741",
+     "actividad": "Venta de computadores y equipos de telecomunicaciones",
+     "al_dia": 156,
+     "nuevas": 30
+    },
+    {
+     "ciiu": "6190",
+     "actividad": "Otras telecomunicaciones",
+     "al_dia": 46,
+     "nuevas": 7
+    },
+    {
+     "ciiu": "6110",
+     "actividad": "Telecomunicaciones alámbricas",
+     "al_dia": 23,
+     "nuevas": 3
+    },
+    {
+     "ciiu": "6120",
+     "actividad": "Telecomunicaciones inalámbricas",
+     "al_dia": 22,
+     "nuevas": 3
+    },
+    {
+     "ciiu": "9511",
+     "actividad": "Reparación de computadores",
+     "al_dia": 22,
+     "nuevas": 2
+    },
+    {
+     "ciiu": "9512",
+     "actividad": "Reparación de equipos de comunicación",
+     "al_dia": 20,
+     "nuevas": 2
+    },
+    {
+     "ciiu": "6201",
+     "actividad": "Desarrollo de software",
+     "al_dia": 17,
+     "nuevas": 9
+    },
+    {
+     "ciiu": "8020",
+     "actividad": "Sistemas de seguridad (alarmas, cámaras)",
+     "al_dia": 15,
+     "nuevas": 2
+    },
+    {
+     "ciiu": "6311",
+     "actividad": "Procesamiento de datos y hosting",
+     "al_dia": 4,
+     "nuevas": 0
+    },
+    {
+     "ciiu": "6209",
+     "actividad": "Otros servicios informáticos",
+     "al_dia": 3,
+     "nuevas": 1
+    },
+    {
+     "ciiu": "6202",
+     "actividad": "Consultoría e instalaciones informáticas",
+     "al_dia": 2,
+     "nuevas": 1
+    },
+    {
+     "ciiu": "6312",
+     "actividad": "Portales web",
+     "al_dia": 1,
+     "nuevas": 0
+    },
+    {
+     "ciiu": "6130",
+     "actividad": "Telecomunicaciones satelitales",
+     "al_dia": 0,
+     "nuevas": 0
+    }
+   ]
+  }
+ }
+}
