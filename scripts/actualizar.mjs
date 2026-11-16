@@ -96,7 +96,7 @@ const estados = ACTIVAS.map((e) => `'${e}'`).join(',');
 const ANIOS = Array.from({ length: 11 }, (_, i) => ANIO - 10 + i);
 const COHORTES = Array.from({ length: 10 }, (_, i) => REF - 10 + i);
 const MESES = [];
-for (let a = ANIO - 2; a <= ANIO; a++) for (let m = 1; m <= 12; m++) { const ym = `${a}${String(m).padStart(2, '0')}`; if (ym <= corte.slice(0, 6)) MESES.push(ym); }
+for (let a = ANIO - 10; a <= ANIO; a++) for (let m = 1; m <= 12; m++) { const ym = `${a}${String(m).padStart(2, '0')}`; if (ym <= corte.slice(0, 6)) MESES.push(ym); }
 const TIPOS = ['Persona natural', 'SAS', 'Otras sociedades', ESAL];
 const INICIO = `${REF - 10}0101`;
 
