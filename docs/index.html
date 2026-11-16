@@ -24,7 +24,7 @@ h2{font-size:1.25rem;font-weight:600;margin:0 0 4px}
 .nota{color:var(--pizarra);font-size:.9rem;max-width:75ch;margin:0 0 12px}
 .corte{border-bottom:2px solid var(--laton)}
 .control{display:flex;align-items:center;gap:8px;margin:18px 0 22px;flex-wrap:wrap}
-select{font:inherit;font-size:.95rem;color:var(--navy);background:var(--papel);border:1px solid var(--pizarra);border-radius:4px;padding:6px 10px}
+select{font:inherit;font-size:.95rem;color:var(--navy);background:var(--papel);border:1px solid var(--pizarra);border-radius:4px;padding:6px 10px;max-width:100%}
 select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--cian);outline-offset:2px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:32px}
 .card,.panel{background:var(--papel);border:1px solid var(--profundo);border-radius:6px;padding:16px}
@@ -37,10 +37,17 @@ select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 .leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--pizarra);margin:6px 0}
 .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
 .barras{position:relative;display:flex;flex-direction:column;gap:9px;min-height:320px}
-.b-et{font-size:.88rem}
+.b-btn{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;border-radius:4px;padding:2px 4px;cursor:pointer}
+.b-btn:hover,.b-btn[aria-pressed=true]{background:var(--plano)}
+.b-btn:focus-visible,.btn:focus-visible{outline:2px solid var(--cian);outline-offset:2px}
+.b-tenue{opacity:.4}
+.b-et{display:block;font-size:.88rem}
 .b-fila{display:flex;align-items:center;gap:8px}
-.b-pista{flex:1;min-width:0;height:14px}
-.b-rel{height:100%;background:var(--cian);border-radius:2px;min-width:2px}
+.b-pista{display:block;flex:1;min-width:0;height:14px}
+.b-rel{display:block;height:100%;background:var(--cian);border-radius:2px;min-width:2px}
+.btn{font:inherit;font-size:.85rem;color:var(--navy);background:var(--papel);border:1px solid var(--pizarra);border-radius:4px;padding:5px 10px;cursor:pointer}
+.btn[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.seg{display:flex;gap:6px;margin:8px 0}
 .b-val{font-size:.82rem;color:var(--pizarra);white-space:nowrap;font-variant-numeric:tabular-nums}
 .tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;border-radius:4px;padding:6px 9px;font-size:.8rem;line-height:1.35;z-index:3;max-width:230px}
 .tip b{display:block;font-weight:600}
@@ -70,9 +77,15 @@ a{color:#0B7F97}
     <p class="lead" id="lead">Cargando datos…</p>
     <p class="nota">Registro mercantil (RUES, Confecámaras) publicado en datos.gov.co. Las cifras son por jurisdicción de cámara de comercio, no por municipio. Empresas = personas naturales y sociedades; las entidades sin ánimo de lucro se cuentan aparte.</p>
     <div class="control">
-      <label for="camara" class="mono">CÁMARA DE COMERCIO</label>
+      <label for="camara" class="mono">CÁMARA</label>
       <select id="camara"></select>
+      <label for="sector" class="mono">SECTOR</label>
+      <select id="sector"></select>
+      <label for="tipo" class="mono">TIPO</label>
+      <select id="tipo"><option value="todas">Todas las empresas</option><option value="naturales">Personas naturales</option><option value="sociedades">Sociedades</option></select>
+      <button type="button" class="btn" id="limpiar" hidden>Quitar filtros</button>
     </div>
+    <p class="nota" id="sec-oficial" hidden></p>
   </header>
 
   <noscript><p class="aviso">Este tablero necesita JavaScript para mostrar los datos.</p></noscript>
@@ -87,15 +100,16 @@ a{color:#0B7F97}
     </section>
 
     <section class="panel">
-      <h2>Empresas nuevas y canceladas por año</h2>
-      <p class="nota">El último año va hasta la fecha de corte (*). Cada abril la cámara cancela de oficio las matrículas con cinco años sin renovar (Ley 1727 de 2014), así que las cancelaciones no son solo cierres recientes.</p>
+      <h2 id="t-tend">Empresas nuevas y canceladas por año</h2>
+      <div class="seg" role="group" aria-label="Periodo del gráfico"><button type="button" class="btn" data-vista="anio" aria-pressed="true">Por año</button><button type="button" class="btn" data-vista="mes" aria-pressed="false">Por mes</button></div>
+      <p class="nota">Por año, el último va hasta la fecha de corte (*); por mes solo se muestran meses completos. Cada abril la cámara cancela de oficio las matrículas con cinco años sin renovar (Ley 1727 de 2014), así que las cancelaciones no son solo cierres recientes.</p>
       <div class="leyenda"><span><i class="sw" style="background:var(--cian)"></i>Nuevas</span><span><i class="sw" style="background:var(--navy)"></i>Canceladas</span></div>
       <div class="chart" id="g-anual"></div>
     </section>
 
     <section class="panel">
       <h2 id="t-sectores">Sectores con más empresas al día</h2>
-      <p class="nota">Diez sectores principales según la actividad económica principal (CIIU). Cifra y participación sobre el total de empresas al día.</p>
+      <p class="nota">Diez sectores principales según la actividad económica principal (CIIU). Cifra y participación sobre el total de empresas al día. Toca un sector para filtrar todo el tablero.</p>
       <div class="barras" id="g-sectores"></div>
     </section>
 
@@ -111,7 +125,7 @@ a{color:#0B7F97}
       <div class="scroll"><table id="t-tipos"><thead><tr><th>Tipo</th><th class="num">Al día</th><th class="num">Participación</th><th class="num">Nuevas en el año</th><th class="num">Participación</th></tr></thead><tbody></tbody></table></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="s-tec">
       <h2>Tecnología, telecomunicaciones y seguridad electrónica</h2>
       <p class="nota">Empresas al día según su actividad principal.</p>
       <div class="scroll"><table id="t-tec"><thead><tr><th>CIIU</th><th>Actividad principal</th><th class="num">Al día</th><th class="num">Nuevas en el año</th></tr></thead><tbody></tbody></table></div>
@@ -121,6 +135,7 @@ a{color:#0B7F97}
       <summary>Definiciones, método y límites</summary>
       <p><b>Al día:</b> matrícula activa cuyo último año renovado es el año de referencia o posterior. De enero a marzo se usa el año anterior, porque el plazo de renovación vence el 31 de marzo. <b>Activa:</b> matrícula no cancelada, aunque lleve años sin renovar. <b>Nueva:</b> matrícula con fecha en el año. <b>Cancelada:</b> matrícula con fecha de cancelación en el año.</p>
       <p>La variación compara el mismo tramo del año anterior, de enero al día de corte. El registro mide formalidad: los negocios informales no aparecen. Los sectores usan nombres cortos; el título oficial de la CIIU Rev. 4 A.C. aparece al pasar el cursor o tocar cada barra. Las actividades de tecnología llevan su título oficial.</p>
+      <p>Los filtros de sector y tipo recalculan todas las cifras. La tabla de tipo de organización siempre muestra los cuatro tipos, y la de tecnología se oculta al elegir un sector. La vista por mes cubre desde enero de hace dos años.</p>
       <p><b>Privacidad:</b> el tablero solo consulta conteos agregados a la API pública. No descarga ni almacena nombres, documentos ni datos de contacto.</p>
     </details>
   </main>
@@ -145,7 +160,16 @@ a{color:#0B7F97}
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const SVG = 'http://www.w3.org/2000/svg';
   const s = (tag, attrs, text) => { const e = document.createElementNS(SVG, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
-  let DATA = null, CAM = null;
+  const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const TIPO_TXT = {todas: '', naturales: 'personas naturales', sociedades: 'sociedades'};
+  let DATA = null;
+  const F = {camara: '', sector: '', tipo: 'todas', vista: 'anio'};
+
+  const suma = (cs, f) => cs.reduce((t, c) => t + f(c), 0);
+  const vec = (cs, k, len) => { const o = new Array(len).fill(0); cs.forEach((c) => c[k].forEach((v, i) => { o[i] += v; })); return o; };
+  const razon = (a, b) => (b ? Math.round(1000 * a / b) / 10 : null);
+  const esTipo = (c, t) => (t === 'naturales' ? c.tipo === 'Persona natural' : t === 'sociedades' ? (c.tipo === 'SAS' || c.tipo === 'Otras sociedades') : c.tipo !== DATA.meta.esal);
+  const ultimo = (a) => a[a.length - 1];
 
   function tooltip(box) {
     const tip = el('div', 'tip'); tip.hidden = true; box.appendChild(tip);
@@ -174,19 +198,20 @@ a{color:#0B7F97}
     const mide = (t) => { const p = s('text', {}, t); svg.appendChild(p); const w = p.getComputedTextLength(); p.remove(); return w; };
     const ticks = []; for (let v = 0; v <= tope + 1e-9; v += salto) ticks.push(v);
     const ml = Math.max(...ticks.map((t) => mide(fmt(t)))) + 10;
-    const mr = Math.max(...series.map((se) => mide(fmt(se.values[se.values.length - 1])))) + 12;
+    const mr = Math.max(...series.map((se) => mide(fmt(ultimo(se.values))))) + 12;
     const x = (i) => xs.length < 2 ? (ml + W - mr) / 2 : ml + 8 + i * (W - mr - 12 - ml) / (xs.length - 1);
     ticks.forEach((t) => {
       svg.appendChild(s('line', {x1: ml, x2: W - mr, y1: y(t), y2: y(t), stroke: '#DCE7EA'}));
       svg.appendChild(s('text', {x: ml - 6, y: y(t), dy: '0.32em', 'text-anchor': 'end'}, fmt(t)));
     });
-    const cada = Math.max(1, Math.ceil((mide(xs[xs.length - 1]) + 10) / Math.max(1, x(1) - x(0))));
+    const cada = Math.max(1, Math.ceil((mide(ultimo(xs)) + 10) / Math.max(1, x(1) - x(0))));
     xs.forEach((lab, i) => { if ((xs.length - 1 - i) % cada === 0) svg.appendChild(s('text', {x: x(i), y: H - 8, 'text-anchor': 'middle'}, lab)); });
-    const fin = series.map((se, i) => ({i, y: y(se.values[se.values.length - 1]), t: fmt(se.values[se.values.length - 1])})).sort((a, b) => a.y - b.y);
+    const fin = series.map((se, i) => ({i, y: y(ultimo(se.values)), t: fmt(ultimo(se.values))})).sort((a, b) => a.y - b.y);
     for (let k = 1; k < fin.length; k++) if (fin[k].y - fin[k - 1].y < 14) fin[k].y = fin[k - 1].y + 14;
+    const radio = xs.length > 20 ? 2 : 3;
     series.forEach((se) => {
       svg.appendChild(s('path', {d: se.values.map((v, i) => (i ? 'L' : 'M') + x(i) + ' ' + y(v)).join(' '), fill: 'none', stroke: se.color, 'stroke-width': 2}));
-      se.values.forEach((v, i) => svg.appendChild(s('circle', {cx: x(i), cy: y(v), r: 3, fill: se.color})));
+      se.values.forEach((v, i) => svg.appendChild(s('circle', {cx: x(i), cy: y(v), r: radio, fill: se.color})));
     });
     fin.forEach((f) => { const t = s('text', {x: W - mr + 6, y: f.y, dy: '0.32em'}, f.t); t.style.fill = series[f.i].color; svg.appendChild(t); });
     const guia = s('line', {y1: top, y2: bottom, stroke: '#5C7080', 'stroke-dasharray': '3 3', visibility: 'hidden'}); svg.appendChild(guia);
@@ -201,18 +226,21 @@ a{color:#0B7F97}
     svg.addEventListener('pointerleave', () => { tip.hide(); guia.setAttribute('visibility', 'hidden'); });
   }
 
-  function barras(box, filas) {
+  function barras(box, filas, oficial) {
     box.replaceChildren();
     const tip = tooltip(box);
     const max = Math.max(1, ...filas.map((f) => f.al_dia));
     filas.forEach((f) => {
-      const fila = el('div');
-      const linea = el('div', 'b-fila'), pista = el('div', 'b-pista'), rel = el('div', 'b-rel');
+      const fila = el('button', 'b-btn'); fila.type = 'button';
+      fila.setAttribute('aria-pressed', String(F.sector === f.sector));
+      if (F.sector && F.sector !== f.sector) fila.classList.add('b-tenue');
+      const linea = el('span', 'b-fila'), pista = el('span', 'b-pista'), rel = el('span', 'b-rel');
       rel.style.width = (100 * f.al_dia / max) + '%';
       pista.appendChild(rel); linea.append(pista, el('span', 'b-val', int(f.al_dia) + ' · ' + pct(f.pct_al_dia)));
-      fila.append(el('div', 'b-et', f.sector), linea); box.appendChild(fila);
-      const ver = (ev) => { const [px, py] = punto(ev, box); tip.show(f.oficial || f.sector, ['Al día: ' + int(f.al_dia) + ' (' + pct(f.pct_al_dia) + ')', 'Nuevas en el año: ' + int(f.nuevas) + ' (' + pct(f.pct_nuevas) + ')'], px, py); };
-      fila.addEventListener('pointermove', ver); fila.addEventListener('pointerdown', ver); fila.addEventListener('pointerleave', () => tip.hide());
+      fila.append(el('span', 'b-et', f.sector), linea); box.appendChild(fila);
+      const ver = (ev) => { const [px, py] = punto(ev, box); tip.show(oficial[f.sector] || f.sector, ['Al día: ' + int(f.al_dia) + ' (' + pct(f.pct_al_dia) + ')', 'Nuevas en el año: ' + int(f.nuevas) + ' (' + pct(f.pct_nuevas) + ')'], px, py); };
+      fila.addEventListener('pointermove', ver); fila.addEventListener('pointerleave', () => tip.hide());
+      fila.addEventListener('click', () => { F.sector = F.sector === f.sector ? '' : f.sector; aplicar(); });
     });
   }
 
@@ -226,44 +254,108 @@ a{color:#0B7F97}
   };
 
   function pintar() {
-    const m = DATA.meta, c = DATA.camaras[CAM], r = c.resumen;
+    const m = DATA.meta, c = DATA.camaras[F.camara];
+    const oficial = Object.fromEntries(m.sectores.map((x) => [x.corto, x.oficial]));
+    const porTipo = c.celdas.filter((x) => esTipo(x, F.tipo));
+    const sel = porTipo.filter((x) => !F.sector || x.sector === F.sector);
     const corte = fFecha.format(new Date(m.corte));
+    const nA = vec(sel, 'nuevas_anio', m.anios.length), cA = vec(sel, 'canceladas_anio', m.anios.length);
+    const r = {activas: suma(sel, (x) => x.activas), al_dia: suma(sel, (x) => x.al_dia), nuevas: ultimo(nA), canceladas: ultimo(cA),
+      nuevas_prev: suma(sel, (x) => x.nuevas_prev), canceladas_prev: suma(sel, (x) => x.canceladas_prev)};
+    const varN = razon(r.nuevas - r.nuevas_prev, r.nuevas_prev), varC = razon(r.canceladas - r.canceladas_prev, r.canceladas_prev);
+    const porCancelada = r.canceladas ? nf2.format(r.nuevas / r.canceladas) : '—';
+    const filtro = (F.sector ? ' del sector ' + F.sector : '') + (TIPO_TXT[F.tipo] ? ' (' + TIPO_TXT[F.tipo] + ')' : '');
+
     document.querySelectorAll('[data-t=anio]').forEach((n) => { n.textContent = m.anio; });
     document.querySelectorAll('[data-t=ref]').forEach((n) => { n.textContent = m.anio_referencia; });
     $('lead').replaceChildren(
       document.createTextNode('Entre enero y el '), el('span', 'corte', corte),
-      document.createTextNode(' se matricularon ' + int(r.nuevas) + ' empresas nuevas en la Cámara de Comercio de ' + c.nombre + ', ' + spct(r.var_nuevas_pct) + ' frente al mismo periodo del año anterior. Por cada empresa cancelada se crearon ' + (r.nuevas_por_cancelada == null ? '—' : nf2.format(r.nuevas_por_cancelada)) + '.'));
+      document.createTextNode(' se matricularon ' + int(r.nuevas) + ' empresas nuevas' + filtro + ' en la Cámara de Comercio de ' + c.nombre + ', ' + spct(varN) + ' frente al mismo periodo del año anterior. Por cada empresa cancelada se crearon ' + porCancelada + '.'));
+    $('sec-oficial').hidden = !F.sector;
+    $('sec-oficial').textContent = F.sector ? 'Sector según la CIIU Rev. 4 A.C.: ' + (oficial[F.sector] || F.sector) + '.' : '';
+    $('limpiar').hidden = !F.sector && F.tipo === 'todas';
     $('k-aldia').textContent = int(r.al_dia);
-    $('k-aldia-sub').textContent = pct(r.pct_al_dia) + ' de las ' + int(r.activas) + ' con matrícula activa';
-    $('k-nuevas').textContent = int(r.nuevas); cambio($('k-nuevas-sub'), r.var_nuevas_pct, true);
-    $('k-canc').textContent = int(r.canceladas); cambio($('k-canc-sub'), r.var_canceladas_pct, false);
-    $('k-razon').textContent = r.nuevas_por_cancelada == null ? '—' : nf2.format(r.nuevas_por_cancelada);
-    lineas($('g-anual'), c.anual.map((a) => a.anio + (a.parcial ? '*' : '')), [
-      {name: 'Nuevas', color: '#0EA5C4', values: c.anual.map((a) => a.nuevas)},
-      {name: 'Canceladas', color: '#16324F', values: c.anual.map((a) => a.canceladas)}], int,
-      'Empresas nuevas y canceladas por año en la Cámara de Comercio de ' + c.nombre);
-    const top = c.sectores.filter((x) => x.sector !== 'Sin clasificar').slice(0, 10);
-    $('t-sectores').textContent = top.length ? top[0].sector + ' reúne el ' + pct(top[0].pct_al_dia) + ' de las empresas al día' : 'Sectores con más empresas al día';
-    barras($('g-sectores'), top);
-    lineas($('g-superv'), c.supervivencia.map((x) => String(x.cohorte)), [
-      {name: 'Personas naturales', color: '#0EA5C4', values: c.supervivencia.map((x) => x.naturales.pct_al_dia || 0)},
-      {name: 'Sociedades', color: '#16324F', values: c.supervivencia.map((x) => x.sociedades.pct_al_dia || 0)}], pct,
-      'Porcentaje de empresas que siguen al día por año de matrícula en la Cámara de Comercio de ' + c.nombre);
-    tabla('t-tipos', c.tipos, [['tipo'], ['al_dia', int, 1], ['pct_al_dia', pct, 1], ['nuevas', int, 1], ['pct_nuevas', pct, 1]]);
-    tabla('t-tec', c.tecnologia, [['ciiu'], ['actividad'], ['al_dia', int, 1], ['nuevas', int, 1]]);
+    $('k-aldia-sub').textContent = pct(razon(r.al_dia, r.activas)) + ' de las ' + int(r.activas) + ' con matrícula activa';
+    $('k-nuevas').textContent = int(r.nuevas); cambio($('k-nuevas-sub'), varN, true);
+    $('k-canc').textContent = int(r.canceladas); cambio($('k-canc-sub'), varC, false);
+    $('k-razon').textContent = porCancelada;
+
+    document.querySelectorAll('[data-vista]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vista === F.vista)));
+    const mes = F.vista === 'mes';
+    const nM = m.meses.length - (new Date(Date.parse(m.corte) + 864e5).getUTCDate() !== 1 ? 1 : 0);
+    const xs = mes ? m.meses.slice(0, nM).map((ym) => MES[+ym.slice(4) - 1] + ' ' + ym.slice(2, 4)) : m.anios.map(String);
+    if (!mes) xs[xs.length - 1] += '*';
+    $('t-tend').textContent = mes ? 'Empresas nuevas y canceladas por mes' : 'Empresas nuevas y canceladas por año';
+    lineas($('g-anual'), xs, [
+      {name: 'Nuevas', color: '#0EA5C4', values: mes ? vec(sel, 'nuevas_mes', m.meses.length).slice(0, nM) : nA},
+      {name: 'Canceladas', color: '#16324F', values: mes ? vec(sel, 'canceladas_mes', m.meses.length).slice(0, nM) : cA}], int,
+      'Empresas nuevas y canceladas por ' + (mes ? 'mes' : 'año') + filtro + ' en la Cámara de Comercio de ' + c.nombre);
+
+    const totAl = suma(porTipo, (x) => x.al_dia), totNu = suma(porTipo, (x) => ultimo(x.nuevas_anio));
+    const sectores = m.sectores.map((x) => x.corto).map((sec) => {
+      const cs = porTipo.filter((x) => x.sector === sec), a = suma(cs, (x) => x.al_dia), nu = suma(cs, (x) => ultimo(x.nuevas_anio));
+      return {sector: sec, al_dia: a, pct_al_dia: razon(a, totAl), nuevas: nu, pct_nuevas: razon(nu, totNu)};
+    }).filter((x) => x.al_dia || x.nuevas).sort((a, b) => b.al_dia - a.al_dia);
+    const top = sectores.slice(0, 10);
+    const elegido = sectores.find((x) => x.sector === F.sector);
+    if (elegido && !top.includes(elegido)) top.push(elegido);
+    $('t-sectores').textContent = elegido ? elegido.sector + ': ' + int(elegido.al_dia) + ' empresas al día, el ' + pct(elegido.pct_al_dia) + ' del total'
+      : top.length ? top[0].sector + ' reúne el ' + pct(top[0].pct_al_dia) + ' de las empresas al día' : 'Sectores con más empresas al día';
+    barras($('g-sectores'), top, oficial);
+    const sSel = $('sector'), previo = sSel.value;
+    sSel.replaceChildren(new Option('Todos los sectores', ''), ...sectores.map((x) => new Option(x.sector, x.sector)));
+    if (F.sector && !elegido) sSel.appendChild(new Option(F.sector, F.sector));
+    sSel.value = F.sector; void previo;
+
+    const base = c.celdas.filter((x) => !F.sector || x.sector === F.sector);
+    const coh = (cs) => m.cohortes.map((_, i) => razon(suma(cs, (x) => x.cohorte_al_dia[i]), suma(cs, (x) => x.cohorte[i])) || 0);
+    const lineasSup = [];
+    if (F.tipo !== 'sociedades') lineasSup.push({name: 'Personas naturales', color: '#0EA5C4', values: coh(base.filter((x) => esTipo(x, 'naturales')))});
+    if (F.tipo !== 'naturales') lineasSup.push({name: 'Sociedades', color: '#16324F', values: coh(base.filter((x) => esTipo(x, 'sociedades')))});
+    lineas($('g-superv'), m.cohortes.map(String), lineasSup, pct,
+      'Porcentaje de empresas' + filtro + ' que siguen al día por año de matrícula en la Cámara de Comercio de ' + c.nombre);
+
+    const tAl = suma(base, (x) => x.al_dia), tNu = suma(base, (x) => ultimo(x.nuevas_anio));
+    tabla('t-tipos', m.tipos.map((t) => {
+      const cs = base.filter((x) => x.tipo === t), a = suma(cs, (x) => x.al_dia), nu = suma(cs, (x) => ultimo(x.nuevas_anio));
+      return {tipo: t, al_dia: a, pct_al_dia: razon(a, tAl), nuevas: nu, pct_nuevas: razon(nu, tNu)};
+    }).sort((a, b) => b.al_dia - a.al_dia), [['tipo'], ['al_dia', int, 1], ['pct_al_dia', pct, 1], ['nuevas', int, 1], ['pct_nuevas', pct, 1]]);
+
+    $('s-tec').hidden = !!F.sector;
+    const tipos = m.tipos.filter((t) => esTipo({tipo: t}, F.tipo));
+    tabla('t-tec', c.tecnologia.map((x) => ({ciiu: x.ciiu, actividad: x.actividad,
+      al_dia: suma(tipos, (t) => x.por_tipo[t].al_dia), nuevas: suma(tipos, (t) => x.por_tipo[t].nuevas)})).sort((a, b) => b.al_dia - a.al_dia),
+      [['ciiu'], ['actividad'], ['al_dia', int, 1], ['nuevas', int, 1]]);
     $('corte-pie').textContent = corte;
     $('generado').textContent = fFecha.format(new Date(m.generado)).toUpperCase();
   }
 
+  function aplicar() {
+    const p = new URLSearchParams();
+    p.set('camara', F.camara);
+    if (F.sector) p.set('sector', F.sector);
+    if (F.tipo !== 'todas') p.set('tipo', F.tipo);
+    if (F.vista !== 'anio') p.set('vista', F.vista);
+    history.replaceState(null, '', '?' + p);
+    $('camara').value = F.camara; $('tipo').value = F.tipo;
+    pintar();
+  }
+
   fetch('data.json', {cache: 'no-cache'}).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => {
     DATA = d;
-    const sel = $('camara');
-    Object.keys(d.camaras).forEach((k) => sel.appendChild(new Option(d.camaras[k].nombre, k)));
-    const pedido = new URLSearchParams(location.search).get('camara');
-    CAM = d.camaras[pedido] ? pedido : Object.keys(d.camaras)[0];
-    sel.value = CAM;
-    sel.addEventListener('change', () => { CAM = sel.value; history.replaceState(null, '', '?camara=' + CAM); pintar(); });
+    const p = new URLSearchParams(location.search);
+    Object.keys(d.camaras).forEach((k) => $('camara').appendChild(new Option(d.camaras[k].nombre, k)));
+    F.camara = d.camaras[p.get('camara')] ? p.get('camara') : Object.keys(d.camaras)[0];
+    F.sector = d.meta.sectores.some((x) => x.corto === p.get('sector')) ? p.get('sector') : '';
+    F.tipo = TIPO_TXT[p.get('tipo')] != null ? p.get('tipo') : 'todas';
+    F.vista = p.get('vista') === 'mes' ? 'mes' : 'anio';
+    $('camara').addEventListener('change', (e) => { F.camara = e.target.value; aplicar(); });
+    $('sector').addEventListener('change', (e) => { F.sector = e.target.value; aplicar(); });
+    $('tipo').addEventListener('change', (e) => { F.tipo = e.target.value; aplicar(); });
+    $('limpiar').addEventListener('click', () => { F.sector = ''; F.tipo = 'todas'; aplicar(); });
+    document.querySelectorAll('[data-vista]').forEach((b) => b.addEventListener('click', () => { F.vista = b.dataset.vista; aplicar(); }));
     $('contenido').hidden = false;
+    $('camara').value = F.camara; $('tipo').value = F.tipo;
     pintar();
     let t; new ResizeObserver(() => { clearTimeout(t); t = setTimeout(pintar, 150); }).observe($('g-anual'));
   }).catch(() => { $('lead').textContent = ''; $('error').hidden = false; });
