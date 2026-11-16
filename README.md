@@ -28,7 +28,7 @@ rápido y no se cae si datos.gov.co está lento.
 El archivo `docs/CNAME` ya contiene el subdominio. Falta el registro DNS:
 
 1. En Hostinger, abre la zona DNS de `devsystra.com` y crea un registro:
-   tipo `CNAME`, nombre `tablero-indicador`, destino `TU-USUARIO.github.io`, TTL por defecto.
+   tipo `CNAME`, nombre `tablero-indicador`, destino `hugopazr.github.io`, TTL por defecto.
 2. En GitHub, **Settings → Pages → Custom domain**, confirma `tablero-indicador.devsystra.com`.
 3. Cuando GitHub termine de verificar el DNS, activa **Enforce HTTPS**.
 
@@ -52,7 +52,7 @@ Opcional: define `SOCRATA_APP_TOKEN` (gratis en datos.gov.co) para tener más cu
 
 - Las cifras son por jurisdicción de cámara de comercio; el conjunto de datos no trae municipio.
 - Las cancelaciones incluyen la depuración anual de matrículas con cinco años sin renovar (Ley 1727 de 2014).
-- Los nombres de sectores y actividades son abreviaturas de la CIIU Rev. 4 A.C.
+- Los sectores usan nombres cortos; el título oficial de la CIIU Rev. 4 A.C. va en el detalle de cada barra.
 - El registro mide formalidad: los negocios informales no aparecen.
 
 ## Licencia de los datos
