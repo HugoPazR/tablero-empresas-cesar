@@ -1,0 +1,35 @@
+name: Actualizar datos del tablero
+
+on:
+  schedule:
+    - cron: "17 11 * * 1"   # lunes 6:17 a. m. hora de Colombia
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-datos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Recalcular indicadores
+        run: node scripts/actualizar.mjs
+        env:
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+      - name: Publicar si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          git diff --cached --quiet && echo "Sin cambios" && exit 0
+          git commit -m "Actualiza datos del tablero"
+          git push
