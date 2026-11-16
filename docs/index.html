@@ -47,7 +47,7 @@ select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 .b-rel{display:block;height:100%;background:var(--cian);border-radius:2px;min-width:2px}
 .btn{font:inherit;font-size:.85rem;color:var(--navy);background:var(--papel);border:1px solid var(--pizarra);border-radius:4px;padding:5px 10px;cursor:pointer}
 .btn[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
-.seg{display:flex;gap:6px;margin:8px 0}
+.seg{display:flex;gap:6px;margin:8px 0;align-items:center;flex-wrap:wrap}
 .b-val{font-size:.82rem;color:var(--pizarra);white-space:nowrap;font-variant-numeric:tabular-nums}
 .tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;border-radius:4px;padding:6px 9px;font-size:.8rem;line-height:1.35;z-index:3;max-width:230px}
 .tip b{display:block;font-weight:600}
@@ -101,7 +101,7 @@ a{color:#0B7F97}
 
     <section class="panel">
       <h2 id="t-tend">Empresas nuevas y canceladas por año</h2>
-      <div class="seg" role="group" aria-label="Periodo del gráfico"><button type="button" class="btn" data-vista="anio" aria-pressed="true">Por año</button><button type="button" class="btn" data-vista="mes" aria-pressed="false">Por mes</button></div>
+      <div class="seg" role="group" aria-label="Periodo del gráfico"><button type="button" class="btn" data-vista="anio" aria-pressed="true">Por año</button><button type="button" class="btn" data-vista="mes" aria-pressed="false">Por mes</button><label for="anio-mes" class="mono" id="l-anio" hidden>AÑO</label><select id="anio-mes" hidden></select></div>
       <p class="nota">Por año, el último va hasta la fecha de corte (*); por mes solo se muestran meses completos. Cada abril la cámara cancela de oficio las matrículas con cinco años sin renovar (Ley 1727 de 2014), así que las cancelaciones no son solo cierres recientes.</p>
       <div class="leyenda"><span><i class="sw" style="background:var(--cian)"></i>Nuevas</span><span><i class="sw" style="background:var(--navy)"></i>Canceladas</span></div>
       <div class="chart" id="g-anual"></div>
@@ -135,7 +135,7 @@ a{color:#0B7F97}
       <summary>Definiciones, método y límites</summary>
       <p><b>Al día:</b> matrícula activa cuyo último año renovado es el año de referencia o posterior. De enero a marzo se usa el año anterior, porque el plazo de renovación vence el 31 de marzo. <b>Activa:</b> matrícula no cancelada, aunque lleve años sin renovar. <b>Nueva:</b> matrícula con fecha en el año. <b>Cancelada:</b> matrícula con fecha de cancelación en el año.</p>
       <p>La variación compara el mismo tramo del año anterior, de enero al día de corte. El registro mide formalidad: los negocios informales no aparecen. Los sectores usan nombres cortos; el título oficial de la CIIU Rev. 4 A.C. aparece al pasar el cursor o tocar cada barra. Las actividades de tecnología llevan su título oficial.</p>
-      <p>Los filtros de sector y tipo recalculan todas las cifras. La tabla de tipo de organización siempre muestra los cuatro tipos, y la de tecnología se oculta al elegir un sector. La vista por mes cubre desde enero de hace dos años.</p>
+      <p>Los filtros de sector y tipo recalculan todas las cifras. La tabla de tipo de organización siempre muestra los cuatro tipos, y la de tecnología se oculta al elegir un sector. En la vista por mes se elige el año, hasta diez años atrás.</p>
       <p><b>Privacidad:</b> el tablero solo consulta conteos agregados a la API pública. No descarga ni almacena nombres, documentos ni datos de contacto.</p>
     </details>
   </main>
@@ -163,7 +163,7 @@ a{color:#0B7F97}
   const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   const TIPO_TXT = {todas: '', naturales: 'personas naturales', sociedades: 'sociedades'};
   let DATA = null;
-  const F = {camara: '', sector: '', tipo: 'todas', vista: 'anio'};
+  const F = {camara: '', sector: '', tipo: 'todas', vista: 'anio', anio: 0};
 
   const suma = (cs, f) => cs.reduce((t, c) => t + f(c), 0);
   const vec = (cs, k, len) => { const o = new Array(len).fill(0); cs.forEach((c) => c[k].forEach((v, i) => { o[i] += v; })); return o; };
@@ -283,13 +283,20 @@ a{color:#0B7F97}
     document.querySelectorAll('[data-vista]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vista === F.vista)));
     const mes = F.vista === 'mes';
     const nM = m.meses.length - (new Date(Date.parse(m.corte) + 864e5).getUTCDate() !== 1 ? 1 : 0);
-    const xs = mes ? m.meses.slice(0, nM).map((ym) => MES[+ym.slice(4) - 1] + ' ' + ym.slice(2, 4)) : m.anios.map(String);
+    const aniosMes = [...new Set(m.meses.slice(0, nM).map((ym) => +ym.slice(0, 4)))];
+    if (!aniosMes.includes(F.anio)) F.anio = ultimo(aniosMes);
+    const idx = m.meses.map((ym, i) => (i < nM && +ym.slice(0, 4) === F.anio ? i : -1)).filter((i) => i >= 0);
+    const elegir = (v) => idx.map((i) => v[i]);
+    const sA = $('anio-mes');
+    sA.replaceChildren(...aniosMes.slice().reverse().map((a) => new Option(a, a)));
+    sA.value = F.anio; sA.hidden = !mes; $('l-anio').hidden = !mes;
+    const xs = mes ? idx.map((i) => MES[+m.meses[i].slice(4) - 1]) : m.anios.map(String);
     if (!mes) xs[xs.length - 1] += '*';
-    $('t-tend').textContent = mes ? 'Empresas nuevas y canceladas por mes' : 'Empresas nuevas y canceladas por año';
+    $('t-tend').textContent = mes ? 'Empresas nuevas y canceladas por mes en ' + F.anio : 'Empresas nuevas y canceladas por año';
     lineas($('g-anual'), xs, [
-      {name: 'Nuevas', color: '#0EA5C4', values: mes ? vec(sel, 'nuevas_mes', m.meses.length).slice(0, nM) : nA},
-      {name: 'Canceladas', color: '#16324F', values: mes ? vec(sel, 'canceladas_mes', m.meses.length).slice(0, nM) : cA}], int,
-      'Empresas nuevas y canceladas por ' + (mes ? 'mes' : 'año') + filtro + ' en la Cámara de Comercio de ' + c.nombre);
+      {name: 'Nuevas', color: '#0EA5C4', values: mes ? elegir(vec(sel, 'nuevas_mes', m.meses.length)) : nA},
+      {name: 'Canceladas', color: '#16324F', values: mes ? elegir(vec(sel, 'canceladas_mes', m.meses.length)) : cA}], int,
+      'Empresas nuevas y canceladas por ' + (mes ? 'mes en ' + F.anio : 'año') + filtro + ' en la Cámara de Comercio de ' + c.nombre);
 
     const totAl = suma(porTipo, (x) => x.al_dia), totNu = suma(porTipo, (x) => ultimo(x.nuevas_anio));
     const sectores = m.sectores.map((x) => x.corto).map((sec) => {
@@ -335,7 +342,7 @@ a{color:#0B7F97}
     p.set('camara', F.camara);
     if (F.sector) p.set('sector', F.sector);
     if (F.tipo !== 'todas') p.set('tipo', F.tipo);
-    if (F.vista !== 'anio') p.set('vista', F.vista);
+    if (F.vista !== 'anio') { p.set('vista', F.vista); p.set('anio', F.anio || DATA.meta.anio); }
     history.replaceState(null, '', '?' + p);
     $('camara').value = F.camara; $('tipo').value = F.tipo;
     pintar();
@@ -348,11 +355,12 @@ a{color:#0B7F97}
     F.camara = d.camaras[p.get('camara')] ? p.get('camara') : Object.keys(d.camaras)[0];
     F.sector = d.meta.sectores.some((x) => x.corto === p.get('sector')) ? p.get('sector') : '';
     F.tipo = TIPO_TXT[p.get('tipo')] != null ? p.get('tipo') : 'todas';
-    F.vista = p.get('vista') === 'mes' ? 'mes' : 'anio';
+    F.vista = p.get('vista') === 'mes' ? 'mes' : 'anio'; F.anio = +p.get('anio') || 0;
     $('camara').addEventListener('change', (e) => { F.camara = e.target.value; aplicar(); });
     $('sector').addEventListener('change', (e) => { F.sector = e.target.value; aplicar(); });
     $('tipo').addEventListener('change', (e) => { F.tipo = e.target.value; aplicar(); });
     $('limpiar').addEventListener('click', () => { F.sector = ''; F.tipo = 'todas'; aplicar(); });
+    $('anio-mes').addEventListener('change', (e) => { F.anio = +e.target.value; aplicar(); });
     document.querySelectorAll('[data-vista]').forEach((b) => b.addEventListener('click', () => { F.vista = b.dataset.vista; aplicar(); }));
     $('contenido').hidden = false;
     $('camara').value = F.camara; $('tipo').value = F.tipo;
