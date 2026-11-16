@@ -19,28 +19,52 @@ const tipoDe = (org) => org === 'PERSONA NATURAL' ? 'Persona natural'
   : org === 'SOCIEDADES POR ACCIONES SIMPLIFICADAS SAS' ? 'SAS'
   : SOCIEDADES.has(org) ? 'Otras sociedades' : ESAL;
 
-// Secciones CIIU Rev. 4 A.C. por rango de división (nombres abreviados).
-const SECCIONES = [['Agro, ganadería y pesca', 1, 3], ['Minas y canteras', 5, 9], ['Industria manufacturera', 10, 33],
-  ['Electricidad y gas', 35, 35], ['Agua y saneamiento', 36, 39], ['Construcción', 41, 43],
-  ['Comercio y reparación de vehículos', 45, 47], ['Transporte y almacenamiento', 49, 53], ['Alojamiento y comidas', 55, 56],
-  ['Información y comunicaciones', 58, 63], ['Finanzas y seguros', 64, 66], ['Inmobiliarias', 68, 68],
-  ['Profesionales, científicas y técnicas', 69, 75], ['Servicios administrativos y de apoyo', 77, 82],
-  ['Administración pública', 84, 84], ['Educación', 85, 85], ['Salud y asistencia social', 86, 88],
-  ['Arte, entretenimiento y recreación', 90, 93], ['Otros servicios', 94, 96], ['Hogares empleadores', 97, 98],
-  ['Organizaciones extraterritoriales', 99, 99]];
+// Secciones CIIU Rev. 4 A.C.: [nombre corto, división inicial, división final, título oficial].
+const SECCIONES = [
+  ['Agricultura, ganadería y pesca', 1, 3, 'Agricultura, ganadería, caza, silvicultura y pesca'],
+  ['Minas y canteras', 5, 9, 'Explotación de minas y canteras'],
+  ['Industrias manufactureras', 10, 33, 'Industrias manufactureras'],
+  ['Electricidad y gas', 35, 35, 'Suministro de electricidad, gas, vapor y aire acondicionado'],
+  ['Agua, residuos y saneamiento', 36, 39, 'Distribución de agua; evacuación y tratamiento de aguas residuales, gestión de desechos y actividades de saneamiento ambiental'],
+  ['Construcción', 41, 43, 'Construcción'],
+  ['Comercio; reparación de vehículos', 45, 47, 'Comercio al por mayor y al por menor; reparación de vehículos automotores y motocicletas'],
+  ['Transporte y almacenamiento', 49, 53, 'Transporte y almacenamiento'],
+  ['Alojamiento y servicios de comida', 55, 56, 'Alojamiento y servicios de comida'],
+  ['Información y comunicaciones', 58, 63, 'Información y comunicaciones'],
+  ['Finanzas y seguros', 64, 66, 'Actividades financieras y de seguros'],
+  ['Actividades inmobiliarias', 68, 68, 'Actividades inmobiliarias'],
+  ['Profesionales, científicas y técnicas', 69, 75, 'Actividades profesionales, científicas y técnicas'],
+  ['Servicios administrativos y de apoyo', 77, 82, 'Actividades de servicios administrativos y de apoyo'],
+  ['Administración pública y defensa', 84, 84, 'Administración pública y defensa; planes de seguridad social de afiliación obligatoria'],
+  ['Educación', 85, 85, 'Educación'],
+  ['Salud y asistencia social', 86, 88, 'Actividades de atención de la salud humana y de asistencia social'],
+  ['Arte, entretenimiento y recreación', 90, 93, 'Actividades artísticas, de entretenimiento y recreación'],
+  ['Otras actividades de servicios', 94, 96, 'Otras actividades de servicios'],
+  ['Hogares empleadores', 97, 98, 'Actividades de los hogares individuales en calidad de empleadores; actividades no diferenciadas de los hogares individuales como productores de bienes y servicios para uso propio'],
+  ['Organizaciones extraterritoriales', 99, 99, 'Actividades de organizaciones y entidades extraterritoriales'],
+];
+const OFICIAL = Object.fromEntries(SECCIONES.map(([corto, , , oficial]) => [corto, oficial]));
 const sectorDe = (ciiu) => {
   if (!/^\d{4}$/.test(ciiu || '') || ciiu === '9999') return 'Sin clasificar';
   const d = Number(ciiu.slice(0, 2));
   const s = SECCIONES.find(([, a, b]) => d >= a && d <= b);
   return s ? s[0] : 'Sin clasificar';
 };
+// Títulos oficiales de la CIIU Rev. 4 A.C. (Resolución DIAN 139 de 2012).
 const TECNOLOGIA = {
-  '4741': 'Venta de computadores y equipos de telecomunicaciones', '6201': 'Desarrollo de software',
-  '6202': 'Consultoría e instalaciones informáticas', '6209': 'Otros servicios informáticos',
-  '6311': 'Procesamiento de datos y hosting', '6312': 'Portales web', '6110': 'Telecomunicaciones alámbricas',
-  '6120': 'Telecomunicaciones inalámbricas', '6130': 'Telecomunicaciones satelitales', '6190': 'Otras telecomunicaciones',
-  '9511': 'Reparación de computadores', '9512': 'Reparación de equipos de comunicación',
-  '8020': 'Sistemas de seguridad (alarmas, cámaras)',
+  '4741': 'Comercio al por menor de computadores, equipos periféricos, programas de informática y equipos de telecomunicaciones en establecimientos especializados',
+  '6110': 'Actividades de telecomunicaciones alámbricas',
+  '6120': 'Actividades de telecomunicaciones inalámbricas',
+  '6130': 'Actividades de telecomunicación satelital',
+  '6190': 'Otras actividades de telecomunicaciones',
+  '6201': 'Actividades de desarrollo de sistemas informáticos (planificación, análisis, diseño, programación, pruebas)',
+  '6202': 'Actividades de consultoría informática y actividades de administración de instalaciones informáticas',
+  '6209': 'Otras actividades de tecnologías de información y actividades de servicios informáticos',
+  '6311': 'Procesamiento de datos, alojamiento (hosting) y actividades relacionadas',
+  '6312': 'Portales web',
+  '8020': 'Actividades de servicios de sistemas de seguridad',
+  '9511': 'Mantenimiento y reparación de computadores y de equipo periférico',
+  '9512': 'Mantenimiento y reparación de equipos de comunicación',
 };
 
 async function soql(params) {
@@ -125,7 +149,7 @@ for (const cam of CAMARAS) {
   const sNu = acum(de(ciiuNuevas).filter(esEmpresa), (f) => sectorDe(f.cod_ciiu_act_econ_pri));
   const totAl = [...sAl.values()].reduce((x, y) => x + y, 0), totNu = [...sNu.values()].reduce((x, y) => x + y, 0);
   const sectores = [...new Set([...sAl.keys(), ...sNu.keys()])]
-    .map((s) => ({ sector: s, al_dia: sAl.get(s) || 0, pct_al_dia: pct(sAl.get(s) || 0, totAl), nuevas: sNu.get(s) || 0, pct_nuevas: pct(sNu.get(s) || 0, totNu) }))
+    .map((s) => ({ sector: s, oficial: OFICIAL[s] || s, al_dia: sAl.get(s) || 0, pct_al_dia: pct(sAl.get(s) || 0, totAl), nuevas: sNu.get(s) || 0, pct_nuevas: pct(sNu.get(s) || 0, totNu) }))
     .sort((x, y) => y.al_dia - x.al_dia);
 
   const tAl = acum(b.filter(alDia), (f) => tipoDe(f.organizacion_juridica));
